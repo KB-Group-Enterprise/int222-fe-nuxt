@@ -1,0 +1,10 @@
+
+version: "3.3"
+services:
+    frontend:
+        build: .
+        image: ghcr.io/kb-group-enterprise/int222-fe-nuxt:dev
+networks:
+    default:
+        external:
+            name: int222-dev

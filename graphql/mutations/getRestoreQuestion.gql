@@ -1,0 +1,9 @@
+mutation GetRestoreQuestion($username: String!) {
+  getRestoreQuestion(username: $username) {
+    userId
+    question {
+      questionId
+      question
+    }
+  }
+}

@@ -1,0 +1,20 @@
+query AllGames {
+  games {
+    gameId
+    gameName
+    description
+    basePrice
+    categories {
+      categoryId
+      categoryName
+    }
+    categories {
+      categoryId
+      categoryName
+    }
+    retailers {
+      retailerId
+      retailerName
+    }
+  }
+}
