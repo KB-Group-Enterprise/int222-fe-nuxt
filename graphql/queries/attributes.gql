@@ -1,0 +1,14 @@
+query getGameAttributes {
+  categories {
+    categoryId
+    categoryName
+  }
+  publishers {
+    publisherId
+    publisherName
+  }
+  retailers {
+    retailerId
+    retailerName
+  }
+}

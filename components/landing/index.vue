@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full flex justify-center">
-    <div class="w-10/12 grid grid-cols-3 gap-4 mt-20">
+  <common-container>
+    <div class="w-full grid grid-cols-3 gap-4 mt-20">
       <div
         v-for="game in games"
         :key="game.gameId"
@@ -23,8 +23,27 @@
           </div>
         </div>
       </div>
+      <div
+        class="
+          w-full
+          h-full
+          bg-gray-800
+          text-white
+          rounded-xl
+          flex flex-col
+          items-center
+          justify-center
+          shadow
+          cursor-pointer
+          hover:bg-gray-600
+          transition-colors
+        "
+        @click="$router.push('/admin/game/add')"
+      >
+        <div class="font-bold">ADD GAME</div>
+      </div>
     </div>
-  </div>
+  </common-container>
 </template>
 
 <script lang="ts">
