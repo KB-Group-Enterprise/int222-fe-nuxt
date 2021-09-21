@@ -134,18 +134,15 @@ export default {
         },
       },
     },
-    redirect: false,
-    // redirect: {
-    //   login: '/login',
-    //   logout: '/',
-    //   callback: '/',
-    //   home: '/dashboard',
-    // },
+    redirect: {
+      login: '/auth',
+      logout: '/',
+    },
   },
 
-  router: {
-    middleware: ['auth'],
-  },
+  // router: {
+  //   middleware: ['auth'],
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

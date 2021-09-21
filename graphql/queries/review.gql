@@ -1,0 +1,10 @@
+query ReviewsInGame($id: Int!) {
+  reviewByGameId(id: $id) {
+    reviewId
+    rating
+    comment
+    reviewer {
+      username
+    }
+  }
+}

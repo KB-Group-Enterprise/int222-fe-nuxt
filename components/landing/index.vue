@@ -4,7 +4,17 @@
       <div
         v-for="game in games"
         :key="game.gameId"
-        class="card shadow-xl image-full"
+        class="
+          card
+          shadow-xl
+          image-full
+          cursor-pointer
+          transition
+          hover:scale-105
+          ease-in-out
+          duration-200
+        "
+        @click="goGamePage(game.gameId)"
       >
         <figure>
           <img
@@ -17,7 +27,6 @@
             {{ game.description }}
           </p>
           <div class="card-actions">
-            <button class="btn btn-primary">Review</button>
             <button
               class="btn btn-success"
               @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
@@ -62,6 +71,7 @@ import {
   defineComponent,
   onBeforeMount,
   useContext,
+  useRouter,
 } from '@nuxtjs/composition-api';
 import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import GamesQuery from '@/graphql/queries/games.gql';
@@ -101,7 +111,11 @@ export default defineComponent({
       });
       refetch();
     });
-    return { games, deleteGame };
+    const router = useRouter();
+    const goGamePage = (gameId: number) => {
+      router.push(`/game/${gameId}`);
+    };
+    return { games, goGamePage, deleteGame };
   },
 });
 </script>
