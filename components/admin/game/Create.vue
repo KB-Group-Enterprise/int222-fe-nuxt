@@ -1,51 +1,43 @@
 <template>
-  <admin-game-form @save="sendGame"></admin-game-form>
+  <AdminGameForm @save="sendGame"></AdminGameForm>
 </template>
 <script lang="ts">
 import { useMutation } from '@vue/apollo-composable/dist';
 import { defineComponent } from '@vue/composition-api';
 import AddGame from '@/graphql/mutations/addGame.gql';
-import {
-  CategoryInput,
-  NewGameInput,
-  PublisherInput,
-  RetailerInput,
-} from '~/types/types';
+import { useContext, useRouter } from '@nuxtjs/composition-api';
+import { formatFormToGame } from '@/composables/services/gameService';
+import { GameForm } from '~/types/type';
 export default defineComponent({
   setup() {
-    const { mutate: sendNewGame } = useMutation(AddGame);
-    const sendGame = (form: any) => {
-      const publisher: PublisherInput = {
-        publisherId: form.publisher.publisherId,
-        publisherName: form.publisher.publisherName,
-      };
-      const categories: CategoryInput[] = form.categories.map(
-        (category: any) => {
-          return {
-            categoryId: category.categoryId,
-            categoryName: category.categoryName,
-          };
-        }
-      );
-      const retailers: RetailerInput[] = form.retailers.map((retailer: any) => {
-        return {
-          retailerId: retailer.retailerId,
-          retailerName: retailer.retailerName,
-        };
-      });
-      const payload: NewGameInput = {
-        gameName: form.name,
-        basePrice: +form.price,
-        description: form.description,
-        publisher,
-        categories,
-        retailers,
-      };
-      console.log(payload);
-      sendNewGame({ newGameData: payload }).then((res) => {
-        console.log(res);
-      });
+    const {
+      mutate: sendNewGame,
+      onDone: onSendGameDone,
+      onError: onSendGameError,
+    } = useMutation(AddGame);
+    const ctx = useContext();
+    const router = useRouter();
+    const sendGame = (form: GameForm) => {
+      const payload = formatFormToGame(form);
+      sendNewGame({ newGameData: payload });
     };
+    onSendGameError(() => {
+      ctx.$swal({
+        title: 'เกิดข้อผิดผลาด',
+        text: 'ไม่สามารถเพิ่มเกมได้',
+        icon: 'error',
+      });
+    });
+    onSendGameDone(() => {
+      ctx.$swal({
+        title: 'สำเร็จ',
+        text: 'เพิ่มเกมสำเร็จ',
+        timer: 1500,
+        timerProgressBar: true,
+        icon: 'success',
+      });
+      router.push('/');
+    });
     return { sendGame };
   },
 });

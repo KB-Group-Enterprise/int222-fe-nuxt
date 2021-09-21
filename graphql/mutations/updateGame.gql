@@ -1,5 +1,5 @@
-query getGame($gameId: Int!) {
-    game(gameId :$gameId) {
+mutation updateGame($updateGameData: UpdateGameInput!) {
+    updateGame(updateGameData: $updateGameData) {
     gameId
     gameName
     basePrice
@@ -16,5 +16,5 @@ query getGame($gameId: Int!) {
     	retailerId
       retailerName
     }
-  }
+  } 
 }

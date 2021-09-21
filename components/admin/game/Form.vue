@@ -80,7 +80,7 @@
             <label class="label">
               <span class="label-text">Retailers</span>
             </label>
-            <p v-if="validateError.categories" class="text-red-600">
+            <p v-if="validateError.retailers" class="text-red-600">
               กรุณาเลือกอย่างน้อยหนึ่ง Retailer
             </p>
             <label
@@ -118,24 +118,40 @@ import {
   readonly,
   ref,
   useContext,
+  watch,
 } from '@nuxtjs/composition-api';
 import { useQuery } from '@vue/apollo-composable/dist';
 import GameAttributesQuery from '@/graphql/queries/attributes.gql';
-import { Category, Publisher, Retailer } from '~/types/types';
+import { Category, Game, Publisher, Retailer } from '~/types/types';
+import { GameForm } from '~/types/type';
 export default defineComponent({
+  props: {
+    game: {
+      type: Object as () => Game,
+      default: () => ref(null),
+    },
+  },
   setup(props, { emit }) {
     const retailers = ref<Retailer[]>([]);
     const categories = ref<Category[]>([]);
     const publishers = ref<Publisher[]>([]);
+    watch(
+      () => props.game,
+      () => {
+        if (props.game && props.game.gameId) {
+          Object.assign(form, props.game);
+        }
+      }
+    );
     const validateError = reactive({
       publisher: false,
       categories: false,
       retailers: false,
     });
-    const form = reactive({
-      name: '',
+    const form = reactive<GameForm>({
+      gameName: '',
       description: '',
-      price: undefined,
+      basePrice: undefined,
       publisher: '' as any,
       categories: [],
       retailers: [],
@@ -172,7 +188,7 @@ export default defineComponent({
         type: 'text',
         rules: 'required',
         placeholder: 'Game Name',
-        model: 'name',
+        model: 'gameName',
       },
       {
         name: 'Description',
@@ -186,7 +202,7 @@ export default defineComponent({
         type: 'number',
         rules: 'required',
         placeholder: 'Game Price',
-        model: 'price',
+        model: 'basePrice',
       },
     ]);
     return {

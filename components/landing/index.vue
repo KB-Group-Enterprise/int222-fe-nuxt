@@ -27,8 +27,18 @@
             {{ game.description }}
           </p>
           <div class="card-actions">
-            <button class="btn btn-success" @click.stop="">Edit</button>
-            <button class="btn btn-error">Delete</button>
+            <button
+              class="btn btn-success"
+              @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-error"
+              @click.stop="deleteGame({ gameId: game.gameId })"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -60,29 +70,52 @@ import {
   ref,
   defineComponent,
   onBeforeMount,
+  useContext,
   useRouter,
 } from '@nuxtjs/composition-api';
-import { useQuery } from '@vue/apollo-composable/dist';
+import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import GamesQuery from '@/graphql/queries/games.gql';
+import deleteGameGQL from '@/graphql/mutations/deleteGame.gql';
 import { Game } from '~/types/types';
 
 export default defineComponent({
   setup() {
+    const ctx = useContext();
     const games = ref<Game[]>();
-    const getAllGames = () => {
-      const { onResult } = useQuery(GamesQuery);
-      onResult((result) => {
-        games.value = result.data.games;
-      });
-    };
+    const { onResult, refetch } = useQuery(GamesQuery);
+    const {
+      mutate: deleteGame,
+      onError: onDeleteError,
+      onDone: onDeleteDone,
+    } = useMutation(deleteGameGQL);
+    onResult((result) => {
+      games.value = result.data.games;
+    });
     onBeforeMount(() => {
-      getAllGames();
+      refetch();
+    });
+    onDeleteError(() => {
+      ctx.$swal({
+        title: 'เกิดข้อผิดผลาด',
+        text: 'ไม่สามารถลบเกมได้',
+        icon: 'error',
+      });
+    });
+    onDeleteDone(() => {
+      ctx.$swal({
+        title: 'สำเร็จ',
+        text: 'ลบเกมสำเร็จ',
+        timer: 1500,
+        timerProgressBar: true,
+        icon: 'success',
+      });
+      refetch();
     });
     const router = useRouter();
     const goGamePage = (gameId: number) => {
       router.push(`/game/${gameId}`);
     };
-    return { games, goGamePage };
+    return { games, goGamePage, deleteGame };
   },
 });
 </script>
