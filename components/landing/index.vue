@@ -4,7 +4,17 @@
       <div
         v-for="game in games"
         :key="game.gameId"
-        class="card shadow-xl image-full"
+        class="
+          card
+          shadow-xl
+          image-full
+          cursor-pointer
+          transition
+          hover:scale-105
+          ease-in-out
+          duration-200
+        "
+        @click="goGamePage(game.gameId)"
       >
         <figure>
           <img
@@ -17,8 +27,7 @@
             {{ game.description }}
           </p>
           <div class="card-actions">
-            <button class="btn btn-primary">Review</button>
-            <button class="btn btn-success">Edit</button>
+            <button class="btn btn-success" @click.stop="">Edit</button>
             <button class="btn btn-error">Delete</button>
           </div>
         </div>
@@ -47,7 +56,12 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onBeforeMount } from '@nuxtjs/composition-api';
+import {
+  ref,
+  defineComponent,
+  onBeforeMount,
+  useRouter,
+} from '@nuxtjs/composition-api';
 import { useQuery } from '@vue/apollo-composable/dist';
 import GamesQuery from '@/graphql/queries/games.gql';
 import { Game } from '~/types/types';
@@ -64,7 +78,11 @@ export default defineComponent({
     onBeforeMount(() => {
       getAllGames();
     });
-    return { games };
+    const router = useRouter();
+    const goGamePage = (gameId: number) => {
+      router.push(`/game/${gameId}`);
+    };
+    return { games, goGamePage };
   },
 });
 </script>

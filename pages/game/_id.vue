@@ -91,6 +91,7 @@ export default defineComponent({
     });
     async function createReview() {
       try {
+        reviewData.rating = Number(reviewData.rating);
         const res = await sendReview({ reviewData });
         if (res) {
           if (res.data) {
