@@ -1,0 +1,20 @@
+query getGame($gameId: Int!) {
+    game(gameId :$gameId) {
+    gameId
+    gameName
+    basePrice
+    description
+    publisher {
+      publisherId
+      publisherName
+    }
+    categories {
+      categoryId
+      categoryName
+    } 
+    retailers {
+    	retailerId
+      retailerName
+    }
+  }
+}

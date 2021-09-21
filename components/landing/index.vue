@@ -18,7 +18,12 @@
           </p>
           <div class="card-actions">
             <button class="btn btn-primary">Review</button>
-            <button class="btn btn-success">Edit</button>
+            <button
+              class="btn btn-success"
+              @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
+            >
+              Edit
+            </button>
             <button class="btn btn-error">Delete</button>
           </div>
         </div>
@@ -55,14 +60,12 @@ import { Game } from '~/types/types';
 export default defineComponent({
   setup() {
     const games = ref<Game[]>();
-    const getAllGames = () => {
-      const { onResult } = useQuery(GamesQuery);
-      onResult((result) => {
-        games.value = result.data.games;
-      });
-    };
+    const { onResult, refetch } = useQuery(GamesQuery);
+    onResult((result) => {
+      games.value = result.data.games;
+    });
     onBeforeMount(() => {
-      getAllGames();
+      refetch();
     });
     return { games };
   },

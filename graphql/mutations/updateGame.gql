@@ -1,0 +1,20 @@
+mutation updateGame($updateGameData: UpdateGameInput!) {
+    updateGame(updateGameData: $updateGameData) {
+    gameId
+    gameName
+    basePrice
+    description
+    publisher {
+      publisherId
+      publisherName
+    }
+    categories {
+      categoryId
+      categoryName
+    } 
+    retailers {
+    	retailerId
+      retailerName
+    }
+  } 
+}
