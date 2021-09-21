@@ -1,0 +1,6 @@
+query Game($id: Int!) {
+  game(gameId: $id) {
+    gameId
+    gameName
+  }
+}
