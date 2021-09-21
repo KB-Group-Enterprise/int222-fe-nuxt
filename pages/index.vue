@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Test />
+  <div class="w-full">
+    <Landing />
   </div>
 </template>
 <script lang="ts">
