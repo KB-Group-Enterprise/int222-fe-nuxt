@@ -24,7 +24,12 @@
             >
               Edit
             </button>
-            <button class="btn btn-error">Delete</button>
+            <button
+              class="btn btn-error"
+              @click.stop="deleteGame({ gameId: game.gameId })"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -52,22 +57,51 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onBeforeMount } from '@nuxtjs/composition-api';
-import { useQuery } from '@vue/apollo-composable/dist';
+import {
+  ref,
+  defineComponent,
+  onBeforeMount,
+  useContext,
+} from '@nuxtjs/composition-api';
+import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import GamesQuery from '@/graphql/queries/games.gql';
+import deleteGameGQL from '@/graphql/mutations/deleteGame.gql';
 import { Game } from '~/types/types';
 
 export default defineComponent({
   setup() {
+    const ctx = useContext();
     const games = ref<Game[]>();
     const { onResult, refetch } = useQuery(GamesQuery);
+    const {
+      mutate: deleteGame,
+      onError: onDeleteError,
+      onDone: onDeleteDone,
+    } = useMutation(deleteGameGQL);
     onResult((result) => {
       games.value = result.data.games;
     });
     onBeforeMount(() => {
       refetch();
     });
-    return { games };
+    onDeleteError(() => {
+      ctx.$swal({
+        title: 'เกิดข้อผิดผลาด',
+        text: 'ไม่สามารถลบเกมได้',
+        icon: 'error',
+      });
+    });
+    onDeleteDone(() => {
+      ctx.$swal({
+        title: 'สำเร็จ',
+        text: 'ลบเกมสำเร็จ',
+        timer: 1500,
+        timerProgressBar: true,
+        icon: 'success',
+      });
+      refetch();
+    });
+    return { games, deleteGame };
   },
 });
 </script>

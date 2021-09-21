@@ -35,7 +35,6 @@ export default defineComponent({
     } = useMutation(updateGameGQL);
     const sendGameUpdate = (form: GameForm) => {
       const payload = formatFormToGame(form, id);
-      console.log('payload', payload);
       updateGame({ updateGameData: payload });
     };
     onUpdateGameError(() => {

@@ -1,0 +1,6 @@
+mutation deleteGame($gameId: Int!) {
+  deleteGame(gameId: $gameId) {
+    gameId
+    status
+  }
+}
