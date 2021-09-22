@@ -21,7 +21,7 @@
       </div>
     </div>
     <div
-      v-if="review.reviewer.userId === $auth.user.userId"
+      v-if="$auth.user && review.reviewer.userId === $auth.user.userId"
       class="dropdown dropdown-end relative top-4 right-4 z-50"
     >
       <div tabindex="0" class="btn btn-square btn-ghost px-3">
@@ -44,7 +44,7 @@
         class="shadow menu dropdown-content bg-base-200 rounded-box w-52 z-50"
       >
         <li><a @click="changeIsEdit">Edit</a></li>
-        <li><a>Delete</a></li>
+        <li><a @click="removeReview">Delete</a></li>
       </ul>
     </div>
   </div>
@@ -52,7 +52,10 @@
 
 <script lang="ts">
 import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api';
-import { updateReview } from '@/composables/services/reviewService';
+import {
+  deleteReview,
+  updateReview,
+} from '@/composables/services/reviewService';
 import { Review, UpdateReviewInput, User } from '~/types/types';
 
 export default defineComponent({
@@ -66,7 +69,7 @@ export default defineComponent({
       default: -1,
     },
   },
-  setup({ review, gameId }) {
+  setup({ review, gameId }, { emit }) {
     const { $auth } = useContext();
     const currentUser = $auth.user as User;
     const reviewer = review.reviewer;
@@ -83,14 +86,14 @@ export default defineComponent({
       currentUser,
       review
     );
+    const { removeReview } = deleteReview(review, emit);
     return {
       isEdit,
       edit,
       updateData,
       changeIsEdit,
+      removeReview,
     };
   },
 });
 </script>
-
-<style></style>

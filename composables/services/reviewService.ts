@@ -1,6 +1,7 @@
 import { useContext, ref } from '@nuxtjs/composition-api';
 import { useMutation } from '@vue/apollo-composable/dist';
 import UpdateReviewMutation from '@/graphql/mutations/updateReview.gql';
+import DeleteReviewMutation from '@/graphql/mutations/deleteReview.gql';
 import { Review, UpdateReviewInput, User } from '~/types/types';
 
 export function updateReview(
@@ -36,5 +37,24 @@ export function updateReview(
     edit,
     isEdit,
     changeIsEdit,
+  };
+}
+
+export function deleteReview({ reviewId, comment }: Review, emit: any) {
+  const { mutate: deleteReview, onError } = useMutation(DeleteReviewMutation);
+  const { $toast } = useContext();
+
+  const removeReview = async () => {
+    const res = await deleteReview({ id: reviewId });
+    if (res) {
+      emit('delete-review', reviewId);
+      $toast.success(`Delete comment "${comment}" success`);
+    }
+  };
+  onError(() => {
+    $toast.error('Delete failed');
+  });
+  return {
+    removeReview,
   };
 }

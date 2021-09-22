@@ -50,6 +50,7 @@
       :key="comment.reviewId"
       :review="comment"
       :game-id="game.gameId"
+      @delete-review="deleteReview"
     ></GameComment>
   </div>
 </template>
@@ -126,12 +127,18 @@ export default defineComponent({
         console.log(err);
       }
     }
+    function deleteReview(id: number) {
+      comments.value = comments.value.filter(
+        (comment) => comment.reviewId !== id
+      );
+    }
     return {
       game,
       reviewData,
       isCreating,
       createReview,
       comments,
+      deleteReview,
     };
   },
 });
