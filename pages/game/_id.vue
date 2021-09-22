@@ -48,9 +48,8 @@
     <GameComment
       v-for="comment in comments"
       :key="comment.reviewId"
-      :reviewer="comment.reviewer"
-      :comment="comment.comment"
-      :rating="comment.rating"
+      :review="comment"
+      :game-id="game.gameId"
     ></GameComment>
   </div>
 </template>
@@ -87,7 +86,7 @@ export default defineComponent({
     const comments = ref<Review[]>([]);
     const fetchGame = (paramId: number) => {
       const { onResult } = useQuery(GameQuery, {
-        id: paramId,
+        gameId: paramId,
       });
       onResult((result) => {
         if (result.error) {

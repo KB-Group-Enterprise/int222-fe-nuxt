@@ -5,6 +5,7 @@ query ReviewsInGame($id: Int!) {
     comment
     reviewer {
       username
+      userId
     }
   }
 }
