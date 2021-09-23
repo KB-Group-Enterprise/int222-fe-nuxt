@@ -16,7 +16,6 @@ export function updateReview(
   const edit = async () => {
     if (reviewer.userId === currentUser.userId) {
       isEdit.value = true;
-      updateData.reviewId = -1;
       const res = await updateReview({ updateReviewInput: updateData });
       if (res) {
         $toast.success('Update comment success');

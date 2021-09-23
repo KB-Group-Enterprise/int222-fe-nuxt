@@ -71,6 +71,7 @@ import GameQuery from '@/graphql/queries/game.gql';
 import ReviewQuery from '@/graphql/queries/review.gql';
 import CreateReview from '@/graphql/mutations/createReview.gql';
 import { CreateReviewInput, Game, Review, User } from '~/types/types';
+import { comment } from 'postcss';
 export default defineComponent({
   setup() {
     const router = useRouter();
@@ -128,8 +129,10 @@ export default defineComponent({
       }
     }
     function deleteReview(id: number) {
-      comments.value = comments.value.filter(
-        (comment) => comment.reviewId !== id
+      const commentList = comments.value;
+      commentList.splice(
+        commentList.findIndex((comment) => comment.reviewId === id),
+        1
       );
     }
     return {
