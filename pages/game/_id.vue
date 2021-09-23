@@ -7,7 +7,7 @@
       v-slot="{ handleSubmit }"
       class="mt-10"
     >
-      <form @submit.prevent="handleSubmit(createReview)">
+      <form @submit.prevent="handleSubmit(sendReview)">
         <label class="label" for="ratings">Ratings</label>
         <ValidationProvider
           v-slot="{ errors }"
@@ -66,68 +66,25 @@ import {
   useRoute,
   useRouter,
 } from '@nuxtjs/composition-api';
-import { useMutation, useQuery } from '@vue/apollo-composable/dist';
-import GameQuery from '@/graphql/queries/game.gql';
-import ReviewQuery from '@/graphql/queries/review.gql';
-import CreateReview from '@/graphql/mutations/createReview.gql';
-import { CreateReviewInput, Game, Review, User } from '~/types/types';
-import { comment } from 'postcss';
+import { createReview } from '@/composables/services/reviewService';
+import { fetchGame } from '@/composables/services/gameService';
+import { CreateReviewInput } from '~/types/types';
 export default defineComponent({
   setup() {
-    const router = useRouter();
-    const game = ref<Game | null>(null);
-    const { $auth } = useContext();
     const reviewData = reactive<CreateReviewInput>({
       rating: 0,
       comment: '',
       userId: '',
       gameId: 0,
     });
-    const { mutate: sendReview, loading: isCreating } =
-      useMutation(CreateReview);
-    const comments = ref<Review[]>([]);
-    const fetchGame = (paramId: number) => {
-      const { onResult } = useQuery(GameQuery, {
-        gameId: paramId,
-      });
-      onResult((result) => {
-        if (result.error) {
-          router.push('/');
-        } else {
-          game.value = result.data.game;
-          reviewData.gameId = game.value!.gameId;
-        }
-      });
-    };
-    const fetchComments = (paramId: number) => {
-      const { onResult } = useQuery(ReviewQuery, { id: paramId });
-      onResult((result) => {
-        comments.value = result.data.reviewByGameId;
-      });
-    };
+    const { comments, game, fetchGameWithReview } = fetchGame(reviewData);
+    const { isCreating, sendReview } = createReview(reviewData, comments);
     onBeforeMount(() => {
       const route = useRoute();
       const paramId = Number(route.value.params.id);
-      fetchGame(paramId);
-      fetchComments(paramId);
+      fetchGameWithReview(paramId);
     });
 
-    async function createReview() {
-      try {
-        const user = $auth.user as User;
-        reviewData.userId = user.userId;
-        reviewData.rating = Number(reviewData.rating);
-        const res = await sendReview({ reviewData });
-        if (res) {
-          if (res.data) {
-            const comment = res.data.createReview as Review;
-            comments.value.push(comment);
-          }
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
     function deleteReview(id: number) {
       const commentList = comments.value;
       commentList.splice(
@@ -138,8 +95,8 @@ export default defineComponent({
     return {
       game,
       reviewData,
+      sendReview,
       isCreating,
-      createReview,
       comments,
       deleteReview,
     };

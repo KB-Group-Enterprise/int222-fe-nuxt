@@ -1,0 +1,32 @@
+# Write your query or mutation here
+query GameWithReviews($gameId: Int!) {
+  gameWithReviews(gameId: $gameId) {
+    gameId
+    gameName
+    basePrice
+    description
+    publisher {
+      publisherName
+    }
+    categories {
+      categoryName
+    }
+    rating
+    reviews {
+      reviewId
+      rating
+      comment
+      reviewer {
+        userId
+        username
+      }
+      votes {
+        isUpvote
+        user {
+          userId
+          username
+        }
+      }
+    }
+  }
+}

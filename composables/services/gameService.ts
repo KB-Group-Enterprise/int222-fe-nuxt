@@ -1,3 +1,6 @@
+import { useQuery } from '@vue/apollo-composable/dist';
+import GameWithReviews from '@/graphql/queries/gameWithReviews.gql';
+import { useRouter, ref, useContext } from '@nuxtjs/composition-api';
 import { GameForm } from '~/types/type';
 import {
   PublisherInput,
@@ -5,6 +8,9 @@ import {
   RetailerInput,
   NewGameInput,
   UpdateGameInput,
+  Game,
+  CreateReviewInput,
+  Review,
 } from '~/types/types';
 
 const formatFormToGame = (
@@ -52,3 +58,30 @@ const formatFormToGame = (
 };
 
 export { formatFormToGame };
+
+export function fetchGame(reviewData: CreateReviewInput) {
+  const router = useRouter();
+  const { $toast } = useContext();
+  const game = ref<Game | null>(null);
+  const comments = ref<Review[]>([]);
+  const fetchGameWithReview = (paramId: number) => {
+    const { onResult } = useQuery(GameWithReviews, {
+      gameId: paramId,
+    });
+    onResult((result) => {
+      if (result.error) {
+        $toast.error('Something wrong with this game page');
+        router.push('/');
+      } else {
+        game.value = result.data.gameWithReviews;
+        reviewData.gameId = game.value!.gameId;
+        comments.value = game.value!.reviews;
+      }
+    });
+  };
+  return {
+    fetchGameWithReview,
+    game,
+    comments,
+  };
+}

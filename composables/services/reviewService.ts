@@ -1,8 +1,14 @@
-import { useContext, ref } from '@nuxtjs/composition-api';
+import { useContext, ref, Ref } from '@nuxtjs/composition-api';
 import { useMutation } from '@vue/apollo-composable/dist';
 import UpdateReviewMutation from '@/graphql/mutations/updateReview.gql';
 import DeleteReviewMutation from '@/graphql/mutations/deleteReview.gql';
-import { Review, UpdateReviewInput, User } from '~/types/types';
+import CreateReviewMutation from '@/graphql/mutations/createReview.gql';
+import {
+  CreateReviewInput,
+  Review,
+  UpdateReviewInput,
+  User,
+} from '~/types/types';
 
 export function updateReview(
   reviewer: User,
@@ -55,5 +61,35 @@ export function deleteReview({ reviewId, comment }: Review, emit: any) {
   });
   return {
     removeReview,
+  };
+}
+
+export function createReview(
+  reviewData: CreateReviewInput,
+  comments: Ref<Review[]>
+) {
+  const { $auth, $toast } = useContext();
+  const { mutate: send, loading: isCreating } =
+    useMutation(CreateReviewMutation);
+  const sendReview = async () => {
+    try {
+      const user = $auth.user as User;
+      reviewData.userId = user.userId;
+      reviewData.rating = Number(reviewData.rating);
+      const res = await send({ reviewData });
+      if (res) {
+        if (res.data) {
+          const comment = res.data.createReview as Review;
+          comments.value.push(comment);
+          $toast.success('Send Review success');
+        }
+      }
+    } catch (err) {
+      $toast.error('Send Review failed');
+    }
+  };
+  return {
+    isCreating,
+    sendReview,
   };
 }
