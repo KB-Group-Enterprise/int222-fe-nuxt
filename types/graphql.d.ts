@@ -8,6 +8,15 @@ declare module '*/addGame.gql' {
 }
     
 
+declare module '*/addGameWithImages.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AddGameWithImages: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/createReview.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -57,6 +66,15 @@ declare module '*/updateGame.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const updateGame: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/updateGameWithImages.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const updateGameWithImages: DocumentNode;
 
   export default defaultDocument;
 }

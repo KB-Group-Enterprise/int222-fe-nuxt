@@ -71,6 +71,7 @@ export type Game = {
   images: Array<GameImage>;
   rating?: Maybe<Scalars['Int']>;
   reviews: Array<Review>;
+  releaseDate: Scalars['String'];
 };
 
 export type GameImage = {
@@ -116,7 +117,7 @@ export type MutationAddGameArgs = {
 
 
 export type MutationAddGameWithImagesArgs = {
-  files: Scalars['Upload'];
+  files: Array<Scalars['Upload']>;
   newGameData: NewGameInput;
 };
 
@@ -208,6 +209,7 @@ export type NewGameInput = {
   publisher: PublisherInput;
   categories: Array<CategoryInput>;
   retailers: Array<RetailerInput>;
+  releaseDate: Scalars['String'];
 };
 
 export type Publisher = {
@@ -323,6 +325,7 @@ export type UpdateGameInput = {
   publisher?: Maybe<PublisherInput>;
   categories?: Maybe<Array<CategoryInput>>;
   retailers?: Maybe<Array<RetailerInput>>;
+  releaseDate?: Maybe<Scalars['String']>;
   gameId: Scalars['Int'];
 };
 
@@ -366,6 +369,14 @@ export type AddGameMutationVariables = Exact<{
 
 export type AddGameMutation = { __typename?: 'Mutation', addGame: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
 
+export type AddGameWithImagesMutationVariables = Exact<{
+  newGameData: NewGameInput;
+  files: Array<Scalars['Upload']> | Scalars['Upload'];
+}>;
+
+
+export type AddGameWithImagesMutation = { __typename?: 'Mutation', addGameWithImages: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
+
 export type CreateReviewMutationVariables = Exact<{
   reviewData: CreateReviewInput;
 }>;
@@ -408,6 +419,14 @@ export type UpdateGameMutationVariables = Exact<{
 
 export type UpdateGameMutation = { __typename?: 'Mutation', updateGame: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
 
+export type UpdateGameWithImagesMutationVariables = Exact<{
+  newGameData: UpdateGameInput;
+  files: Array<Scalars['Upload']> | Scalars['Upload'];
+}>;
+
+
+export type UpdateGameWithImagesMutation = { __typename?: 'Mutation', updateGameWithImages: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
+
 export type UpdateReviewMutationVariables = Exact<{
   updateReviewInput: UpdateReviewInput;
 }>;
@@ -425,7 +444,7 @@ export type GetGameQueryVariables = Exact<{
 }>;
 
 
-export type GetGameQuery = { __typename?: 'Query', game: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
+export type GetGameQuery = { __typename?: 'Query', game: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> } };
 
 export type GameWithReviewsQueryVariables = Exact<{
   gameId: Scalars['Int'];
@@ -437,7 +456,7 @@ export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __
 export type AllGamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> }> };
+export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> }> };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 

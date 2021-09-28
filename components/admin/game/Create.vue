@@ -4,7 +4,8 @@
 <script lang="ts">
 import { useMutation } from '@vue/apollo-composable/dist';
 import { defineComponent } from '@vue/composition-api';
-import AddGame from '@/graphql/mutations/addGame.gql';
+// import AddGame from '@/graphql/mutations/addGame.gql';
+import AddGameWithImages from '@/graphql/mutations/addGameWithImages.gql';
 import { useContext, useRouter } from '@nuxtjs/composition-api';
 import { formatFormToGame } from '@/composables/services/gameService';
 import { GameForm } from '~/types/type';
@@ -14,12 +15,12 @@ export default defineComponent({
       mutate: sendNewGame,
       onDone: onSendGameDone,
       onError: onSendGameError,
-    } = useMutation(AddGame);
+    } = useMutation(AddGameWithImages);
     const ctx = useContext();
     const router = useRouter();
-    const sendGame = (form: GameForm) => {
+    const sendGame = (form: GameForm, images: any[]) => {
       const payload = formatFormToGame(form);
-      sendNewGame({ newGameData: payload });
+      sendNewGame({ newGameData: payload, files: images });
     };
     onSendGameError(() => {
       ctx.$swal({

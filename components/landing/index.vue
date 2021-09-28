@@ -18,7 +18,13 @@
       >
         <figure>
           <img
-            src="https://cdn.shopify.com/s/files/1/0630/8509/products/pst0584gtav_large.jpg?v=1540231536"
+            :src="
+              game.images[0]
+                ? $axios.defaults.baseURL.slice(0, -4) +
+                  '/games/' +
+                  game.images[0].name
+                : 'https://cdn.shopify.com/s/files/1/0630/8509/products/pst0584gtav_large.jpg?v=1540231536'
+            "
           />
         </figure>
         <div class="justify-end card-body">

@@ -41,6 +41,7 @@ const formatFormToGame = (
     gameName: form.gameName,
     basePrice: +form.basePrice!,
     description: form.description,
+    releaseDate: form.releaseDate,
     publisher,
     categories,
     retailers,

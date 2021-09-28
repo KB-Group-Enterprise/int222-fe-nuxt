@@ -6,7 +6,7 @@
 import { ref, useContext, useRouter } from '@nuxtjs/composition-api';
 import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import getGameGQL from '@/graphql/queries/game.gql';
-import updateGameGQL from '@/graphql/mutations/updateGame.gql';
+import updateGameGQL from '@/graphql/mutations/updateGameWithImages.gql';
 import { defineComponent, onMounted } from '@vue/composition-api';
 import { GameForm } from '~/types/type';
 import { formatFormToGame } from '~/composables/services/gameService';
@@ -33,9 +33,9 @@ export default defineComponent({
       onDone: onUpdateGameDone,
       onError: onUpdateGameError,
     } = useMutation(updateGameGQL);
-    const sendGameUpdate = (form: GameForm) => {
+    const sendGameUpdate = (form: GameForm, images: any[]) => {
       const payload = formatFormToGame(form, id);
-      updateGame({ updateGameData: payload });
+      updateGame({ newGameData: payload, files: images });
     };
     onUpdateGameError(() => {
       ctx.$swal({

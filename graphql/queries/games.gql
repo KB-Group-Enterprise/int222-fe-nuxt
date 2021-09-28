@@ -4,6 +4,7 @@ query AllGames {
     gameName
     description
     basePrice
+    releaseDate
     categories {
       categoryId
       categoryName
@@ -15,6 +16,9 @@ query AllGames {
     retailers {
       retailerId
       retailerName
+    }
+    images {
+      name
     }
   }
 }

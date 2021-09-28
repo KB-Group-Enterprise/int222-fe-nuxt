@@ -2,6 +2,20 @@
   <common-container>
     <div class="w-full flex flex-col mt-20">
       <h1>Add Game</h1>
+      <div>
+        <AdminGamePreview
+          :previews="previews"
+          @ondelete="deleteImg"
+          @choosefile="chooseFiles"
+        ></AdminGamePreview>
+      </div>
+      <input
+        id="fileUpload"
+        class="m-3 w-full lg:w-4/12"
+        type="file"
+        hidden
+        @change="handleImageChange"
+      />
       <ValidationObserver v-slot="{ handleSubmit }">
         <form
           class="grid grid-cols-2 gap-4"
@@ -112,6 +126,7 @@
 </template>
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   onBeforeMount,
   reactive,
@@ -132,6 +147,8 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    const ctx = useContext();
+
     const retailers = ref<Retailer[]>([]);
     const categories = ref<Category[]>([]);
     const publishers = ref<Publisher[]>([]);
@@ -140,6 +157,7 @@ export default defineComponent({
       () => {
         if (props.game && props.game.gameId) {
           Object.assign(form, props.game);
+          setImgfiles(props.game.images);
         }
       }
     );
@@ -153,6 +171,7 @@ export default defineComponent({
       description: '',
       basePrice: undefined,
       publisher: '' as any,
+      releaseDate: '',
       categories: [],
       retailers: [],
     });
@@ -166,8 +185,58 @@ export default defineComponent({
     };
     const onSubmit = () => {
       if (!hasError()) {
-        emit('save', form);
+        emit('save', form, images.value);
       }
+    };
+
+    const images = ref<any[]>([]);
+    const isImageUpdate = ref(false);
+    const chooseFiles = () => {
+      const uploadButton = document.getElementById('fileUpload');
+      if (uploadButton) uploadButton.click();
+    };
+    const previews = computed(() => {
+      return images.value.map((image) => URL.createObjectURL(image));
+    });
+    const handleImageChange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        if (file.type === 'image/png' || file.type === 'image/jpeg') {
+          if (file.size <= 5 * 5000000) {
+            images.value.push(file);
+            isImageUpdate.value = true;
+          } else {
+            alert('File Exceeded 5MB');
+          }
+        } else {
+          alert('Wrong File Type');
+        }
+      }
+    };
+    const deleteImg = (index: number) => {
+      images.value.splice(index, 1);
+      isImageUpdate.value = images.value.length > 0;
+    };
+
+    const setImgfiles = async (pics: any[]) => {
+      const urls = mapUrls(pics);
+      for (const url of urls) {
+        const index = urls.indexOf(url);
+        const res = await fetch(url);
+        if (!res.ok) continue;
+        const blob = await res.blob();
+        const file = new File([blob], pics[index]);
+        images.value.push(file);
+      }
+    };
+    const mapUrls = (pics: any[]) => {
+      const BASE_URL = ctx.$axios.defaults.baseURL!.slice(0, -4);
+      const urls: string[] = [];
+      pics.forEach((pic) => {
+        const url = `${BASE_URL}/games/${pic.name}`;
+        urls.push(url);
+      });
+      return urls;
     };
     onBeforeMount(() => {
       getAllGames();
@@ -204,6 +273,13 @@ export default defineComponent({
         placeholder: 'Game Price',
         model: 'basePrice',
       },
+      {
+        name: 'Release Date',
+        type: 'date',
+        rules: 'required',
+        placeholder: 'Release Date',
+        model: 'releaseDate',
+      },
     ]);
     return {
       formTemplate,
@@ -213,6 +289,10 @@ export default defineComponent({
       categories,
       onSubmit,
       validateError,
+      handleImageChange,
+      deleteImg,
+      chooseFiles,
+      previews,
     };
   },
 });

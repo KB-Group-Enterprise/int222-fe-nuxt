@@ -1,10 +1,9 @@
-query getGame($gameId: Int!) {
-    game(gameId :$gameId) {
+mutation AddGameWithImages($newGameData: NewGameInput!, $files: [Upload!]!) {
+  addGameWithImages(newGameData: $newGameData, files: $files) {
     gameId
     gameName
     basePrice
     description
-    releaseDate
     publisher {
       publisherId
       publisherName
@@ -16,9 +15,6 @@ query getGame($gameId: Int!) {
     retailers {
     	retailerId
       retailerName
-    }
-    images {
-      name
     }
   }
 }
