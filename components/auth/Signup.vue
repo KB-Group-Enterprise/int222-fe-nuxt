@@ -1,7 +1,9 @@
 <template>
+<div class="w-full border rounded-lg bg-gray-600 mt-5">
+  <div class="font-bold text-4xl text-center py-5">REGISTER</div>
   <ValidationObserver v-slot="{ handleSubmit }" class="w-full">
     <form
-      class="form-control w-full py-4"
+      class="form-control w-full"
       @submit.prevent="handleSubmit(signup)"
     >
       <label class="label" for="username">Username</label>
@@ -94,6 +96,7 @@
       </button>
     </form>
   </ValidationObserver>
+  </div>
 </template>
 
 <script lang="ts">
