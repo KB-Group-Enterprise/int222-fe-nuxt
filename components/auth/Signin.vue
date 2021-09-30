@@ -1,6 +1,16 @@
 <template>
-  <div class="w-full border rounded-lg mt-5 bg-gray-600">
-    <div class="font-bold text-4xl text-center py-5">LOGIN</div>
+  <div
+    class="
+      w-full
+      border
+      lg:rounded-lg
+      bg-black
+      p-10
+      bg-opacity-20
+      backdrop-filter backdrop-blur-lg
+    "
+  >
+    <div class="font-bold text-4xl text-center pb-5">LOGIN</div>
     <form class="form-control w-full" @submit.prevent="login">
       <label class="label" for="username">Username</label>
       <input
