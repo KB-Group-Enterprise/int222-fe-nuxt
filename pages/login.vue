@@ -25,7 +25,8 @@
       :src="require(`@/assets/images/jett.png`)"
     />
     <img
-      class="absolute bottom-30 lg:hidden flex" style="transform: scaleX(-1)"
+      class="absolute bottom-30 lg:hidden flex"
+      style="transform: scaleX(-1)"
       :src="require(`@/assets/images/jugg.png`)"
     />
     <img
