@@ -230,7 +230,7 @@ export default defineComponent({
       }
     };
     const mapUrls = (pics: any[]) => {
-      const BASE_URL = ctx.$axios.defaults.baseURL!.slice(0, -4);
+      const BASE_URL = ctx.$axios.defaults.baseURL!;
       const urls: string[] = [];
       pics.forEach((pic) => {
         const url = `${BASE_URL}/games/${pic.name}`;
