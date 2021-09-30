@@ -30,16 +30,26 @@
       </div>
     </div>
     <div class="w-full flex justify-between">
-      <div class="w-full mr-1">
+      <div v-if="!$auth.user" class="w-full mr-1">
         <nuxt-link to="/login">
-        <div class="btn w-full bg-blue-700 hover:bg-blue-800 border-0">
-          Login
-        </div>
+          <div class="btn w-full bg-blue-700 hover:bg-blue-800 border-0">
+            Login
+          </div>
         </nuxt-link>
       </div>
-      <div class="w-full ml-1">
+      <div v-if="!$auth.user" class="w-full ml-1">
         <nuxt-link to="/register">
-        <div class="btn w-full border-0">Register</div>
+          <div class="btn w-full border-0">Register</div>
+        </nuxt-link>
+      </div>
+      <div v-if="$auth.user" class="w-full mr-1">
+        <nuxt-link to="/login">
+          <div
+            class="btn w-full bg-red-700 hover:bg-red-800 border-0"
+            @click="$auth.logout()"
+          >
+            Logout
+          </div>
         </nuxt-link>
       </div>
     </div>
