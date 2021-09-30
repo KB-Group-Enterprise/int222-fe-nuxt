@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen grid grid-cols-6 justify-center">
+  <div class="min-h-screen grid grid-cols-6 justify-center bg-gray-700">
     <div class="lg:flex hidden border-r border-gray-400">
       <layout-LeftSidebar />
     </div>
