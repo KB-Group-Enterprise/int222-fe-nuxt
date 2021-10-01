@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 w-full flex flex-col justify-between">
+  <div class="p-3 w-full flex flex-col justify-between h-screen">
     <div class="flex flex-col">
       <nuxt-link to="/">
         <img
