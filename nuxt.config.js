@@ -37,6 +37,7 @@ export default {
     '~/plugins/vee-validate.js',
     '~/plugins/apollo-client.js',
     '~/plugins/declare-types.ts',
+    '~/plugins/vue-elipse.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
