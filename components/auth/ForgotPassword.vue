@@ -1,49 +1,62 @@
 <template>
-  <form class="form-control w-full py-4" @submit.prevent="resetPassword">
-    <label class="label" for="username">Username</label>
-    <input
-      id="username"
-      v-model="username"
-      class="input input-bordered"
-      type="text"
-      :disabled="isFoundUsername"
-    />
-    <p v-if="error.username" class="text-red-500">{{ error.username }}</p>
-    <button
-      v-if="!isFoundUsername"
-      class="btn btn-primary text-xs md:text-base mt-5"
-      :class="[isResetPasswordLoading ? 'loading disabled' : '']"
-    >
-      {{ isResetPasswordLoading ? 'Loading' : 'Check user' }}
-    </button>
-    <div v-if="isFoundUsername">
-      <div v-if="questionOutput" class="w-full">
-        <label class="label" for="answer">{{
-          questionOutput.question.question
-        }}</label>
-        <input
-          id="answer"
-          v-model="answer"
-          class="input input-bordered w-full"
-          type="text"
-        />
-      </div>
-      <label class="label" for="newpassword">Your New Password</label>
+  <div
+    class="
+      w-full
+      border
+      lg:rounded-lg
+      bg-black
+      p-10
+      bg-opacity-20
+      backdrop-filter backdrop-blur-lg
+    "
+  >
+  <div class="font-bold text-4xl text-center pb-5">Forgot Password</div>
+    <form class="form-control w-full" @submit.prevent="resetPassword">
+      <label class="label" for="username">Username</label>
       <input
-        id="newpassword"
-        v-model="newPassword"
-        class="input input-bordered w-full"
-        type="password"
+        id="username"
+        v-model="username"
+        class="input input-bordered"
+        type="text"
+        :disabled="isFoundUsername"
       />
+      <p v-if="error.username" class="text-red-500">{{ error.username }}</p>
       <button
-        class="btn btn-primary text-xs md:text-base mt-5 w-full"
-        :class="[isResetPasswordLoading ? 'loading btn-disabled' : '']"
+        v-if="!isFoundUsername"
+        class="btn btn-primary text-xs md:text-base mt-5"
+        :class="[isResetPasswordLoading ? 'loading disabled' : '']"
       >
-        {{ isResetPasswordLoading ? 'Loading' : 'Reset Password' }}
+        {{ isResetPasswordLoading ? 'Loading' : 'Check user' }}
       </button>
-      <p v-if="error.answer" class="text-red-500">{{ error.answer }}</p>
-    </div>
-  </form>
+      <div v-if="isFoundUsername">
+        <div v-if="questionOutput" class="w-full">
+          <label class="label" for="answer">{{
+            questionOutput.question.question
+          }}</label>
+          <input
+            id="answer"
+            v-model="answer"
+            class="input input-bordered w-full"
+            type="text"
+          />
+        </div>
+        <label class="label" for="newpassword">Your New Password</label>
+        <input
+          id="newpassword"
+          v-model="newPassword"
+          class="input input-bordered w-full"
+          type="password"
+        />
+        <button
+          class="btn btn-primary text-xs md:text-base mt-5 w-full"
+          :class="[isResetPasswordLoading ? 'loading btn-disabled' : '']"
+        >
+          {{ isResetPasswordLoading ? 'Loading' : 'Reset Password' }}
+        </button>
+        <p v-if="error.answer" class="text-red-500">{{ error.answer }}</p>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script lang="ts">
