@@ -36,6 +36,11 @@
       </button>
       <p v-if="error" class="text-red-500">{{ error }}</p>
     </form>
+    <nuxt-link to="/forgot">
+      <div class="w-full flex justify-end mt-3 hover:underline cursor-pointer">
+        Forgot Password
+      </div>
+    </nuxt-link>
   </div>
 </template>
 
