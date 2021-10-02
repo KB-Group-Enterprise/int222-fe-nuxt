@@ -28,7 +28,7 @@ export default {
   ],
 
   tailwindcss: {
-    jit: true,
+    jit: false,
     cssPath: '~/assets/scss/tailwind.scss',
   },
 

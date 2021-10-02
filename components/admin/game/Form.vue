@@ -233,7 +233,7 @@ export default defineComponent({
       const BASE_URL = ctx.$axios.defaults.baseURL!;
       const urls: string[] = [];
       pics.forEach((pic) => {
-        const url = `${BASE_URL}/games/${pic.name}`;
+        const url = `${BASE_URL}/images/games/${pic.name}`;
         urls.push(url);
       });
       return urls;

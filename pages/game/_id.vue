@@ -2,7 +2,11 @@
   <div v-if="game" class="overflow-hidden relative">
     <img
       class="w-full h-80 object-cover"
-      src="https://via.placeholder.com/1000x300"
+      :src="
+        game.images[0]
+          ? $axios.defaults.baseURL + '/images/games/' + game.images[0].name
+          : 'https://cdn.shopify.com/s/files/1/0630/8509/products/pst0584gtav_large.jpg?v=1540231536'
+      "
       :style="fadeStyle"
     />
     <div
@@ -33,8 +37,7 @@
         thickness="5"
         :noData="game.ratings === null ? true : false"
       >
-        <span slot="legend-value">
-        </span>
+        <span slot="legend-value"> </span>
       </vue-ellipse-progress>
     </div>
     <h1>Game Name: {{ game.gameName }}</h1>

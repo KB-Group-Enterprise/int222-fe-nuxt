@@ -20,7 +20,9 @@
           <img
             :src="
               game.images[0]
-                ? $axios.defaults.baseURL + '/games/' + game.images[0].name
+                ? $axios.defaults.baseURL +
+                  '/images/games/' +
+                  game.images[0].name
                 : 'https://cdn.shopify.com/s/files/1/0630/8509/products/pst0584gtav_large.jpg?v=1540231536'
             "
           />
@@ -30,14 +32,16 @@
           <p>
             {{ game.description }}
           </p>
-          <div class="card-actions">
+          <div v-if="$auth.user" class="card-actions">
             <button
+              v-if="$auth.user.role.roleName === 'admin'"
               class="btn btn-success"
               @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
             >
               Edit
             </button>
             <button
+              v-if="$auth.user.role.roleName === 'admin'"
               class="btn btn-error"
               @click.stop="deleteGame({ gameId: game.gameId })"
             >
@@ -76,6 +80,7 @@ import {
   onBeforeMount,
   useContext,
   useRouter,
+  computed,
 } from '@nuxtjs/composition-api';
 import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import GamesQuery from '@/graphql/queries/games.gql';
