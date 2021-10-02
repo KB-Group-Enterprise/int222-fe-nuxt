@@ -1,6 +1,42 @@
 <template>
-  <div v-if="game">
-    <h1>Game Id: {{ game.gameId }}</h1>
+  <div v-if="game" class="overflow-hidden relative">
+    <img
+      class="w-full h-80 object-cover"
+      src="https://via.placeholder.com/1000x300"
+      :style="fadeStyle"
+    />
+    <div
+      class="
+        bg-black
+        -mt-14
+        -ml-2
+        absolute
+        px-4
+        py-2
+        pl-12
+        border-2 border-white
+        bg-opacity-20
+        backdrop-filter backdrop-blur-lg
+        rounded-lg
+      "
+    >
+      <div class="font-bold text-7xl">{{ game.gameName }}</div>
+    </div>
+    <div class="absolute right-10 -mt-14 flex justify-center items-center">
+      <vue-ellipse-progress
+        progress="50"
+        size="80"
+        line-mode="out 3"
+        color="#8B5CF6"
+        empty-color="rgba(255,255,255,0.5)"
+        empty-thickness="3"
+        thickness="5"
+        :noData="game.ratings === null ? true : false"
+      >
+        <span slot="legend-value">
+        </span>
+      </vue-ellipse-progress>
+    </div>
     <h1>Game Name: {{ game.gameName }}</h1>
     <ValidationObserver
       v-if="$auth.user"
@@ -71,6 +107,9 @@ import { fetchGame } from '@/composables/services/gameService';
 import { CreateReviewInput } from '~/types/types';
 export default defineComponent({
   setup() {
+    const fadeStyle = ref(
+      '-webkit-mask-image: -webkit-gradient(linear,left 40%,left bottom,from(rgba(0, 0, 0, 1)),to(rgba(0, 0, 0, 0)));'
+    );
     const reviewData = reactive<CreateReviewInput>({
       rating: 0,
       comment: '',
@@ -83,6 +122,7 @@ export default defineComponent({
       const route = useRoute();
       const paramId = Number(route.value.params.id);
       fetchGameWithReview(paramId);
+      console.log(game);
     });
 
     function deleteReview(id: number) {
@@ -99,6 +139,7 @@ export default defineComponent({
       isCreating,
       comments,
       deleteReview,
+      fadeStyle,
     };
   },
 });

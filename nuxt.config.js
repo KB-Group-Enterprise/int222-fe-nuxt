@@ -37,6 +37,7 @@ export default {
     '~/plugins/vee-validate.js',
     '~/plugins/apollo-client.js',
     '~/plugins/declare-types.ts',
+    '~/plugins/vue-elipse.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -99,7 +100,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: process.env.API_BASE_URL,
-    credentials: true,
+    withCredentials: true,
     // proxy: true,
   },
   // proxy: {
