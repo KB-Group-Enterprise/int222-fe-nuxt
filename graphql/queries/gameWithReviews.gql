@@ -11,6 +11,9 @@ query GameWithReviews($gameId: Int!) {
     categories {
       categoryName
     }
+    images {
+      name
+    }
     rating
     reviews {
       reviewId
