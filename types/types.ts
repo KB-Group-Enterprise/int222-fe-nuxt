@@ -25,21 +25,21 @@ export type CategoryInput = {
 };
 
 export type CreateReviewInput = {
-  rating: Scalars['Int'];
   comment: Scalars['String'];
-  userId: Scalars['String'];
   gameId: Scalars['Float'];
+  rating: Scalars['Int'];
+  userId: Scalars['String'];
 };
 
 export type CreateVoteInput = {
+  isUpvote: Scalars['Int'];
   reviewId: Scalars['Int'];
   userId: Scalars['String'];
-  isUpvote: Scalars['Int'];
 };
 
 export type CredentialInput = {
-  username: Scalars['String'];
   password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type DeleteGameOutput = {
@@ -53,25 +53,25 @@ export type DeleteUserInput = {
 };
 
 export type ForgotPasswordInput = {
-  username: Scalars['String'];
-  userId: Scalars['String'];
-  restoreAnswer: Scalars['String'];
   newPassword: Scalars['String'];
+  restoreAnswer: Scalars['String'];
+  userId: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Game = {
   __typename?: 'Game';
+  basePrice: Scalars['Float'];
+  categories: Array<Category>;
+  description: Scalars['String'];
   gameId: Scalars['Int'];
   gameName: Scalars['String'];
-  basePrice: Scalars['Float'];
-  description: Scalars['String'];
-  publisher: Publisher;
-  categories: Array<Category>;
-  retailers: Array<Retailer>;
   images: Array<GameImage>;
+  publisher: Publisher;
   rating?: Maybe<Scalars['Int']>;
-  reviews: Array<Review>;
   releaseDate: Scalars['String'];
+  retailers: Array<Retailer>;
+  reviews: Array<Review>;
 };
 
 export type GameImage = {
@@ -88,26 +88,26 @@ export type Mutation = {
   __typename?: 'Mutation';
   addGame: Game;
   addGameWithImages: Game;
-  updateGameWithImages: Game;
-  updateGame: Game;
-  deleteGame: DeleteGameOutput;
-  login: Scalars['String'];
-  register: Scalars['String'];
-  refreshToken: Scalars['Boolean'];
-  me: User;
-  logout: Scalars['Boolean'];
-  forgotPassword: Scalars['String'];
-  deleteUser: Scalars['Boolean'];
-  uploadProfileImage: ImageOutPut;
-  getRestoreQuestion: RestoreQuestionOutput;
-  uploadMultiple: Array<Scalars['String']>;
-  test: Scalars['String'];
   createReview: Review;
-  updateReview: Review;
-  deleteReview: ResponseStatus;
   createVote: Vote;
-  updateVote: Vote;
+  deleteGame: DeleteGameOutput;
+  deleteReview: ResponseStatus;
+  deleteUser: Scalars['Boolean'];
   deleteVote: ResponseStatus;
+  forgotPassword: Scalars['String'];
+  getRestoreQuestion: RestoreQuestionOutput;
+  login: Scalars['String'];
+  logout: Scalars['Boolean'];
+  me: User;
+  refreshToken: Scalars['Boolean'];
+  register: Scalars['String'];
+  test: Scalars['String'];
+  updateGame: Game;
+  updateGameWithImages: Game;
+  updateReview: Review;
+  updateVote: Vote;
+  uploadMultiple: Array<Scalars['String']>;
+  uploadProfileImage: ImageOutPut;
 };
 
 
@@ -122,19 +122,43 @@ export type MutationAddGameWithImagesArgs = {
 };
 
 
-export type MutationUpdateGameWithImagesArgs = {
-  files: Array<Scalars['Upload']>;
-  newGameData: UpdateGameInput;
+export type MutationCreateReviewArgs = {
+  createReviewInput: CreateReviewInput;
 };
 
 
-export type MutationUpdateGameArgs = {
-  updateGameData: UpdateGameInput;
+export type MutationCreateVoteArgs = {
+  createVoteInput: CreateVoteInput;
 };
 
 
 export type MutationDeleteGameArgs = {
   gameId: Scalars['Int'];
+};
+
+
+export type MutationDeleteReviewArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  deleteData: DeleteUserInput;
+};
+
+
+export type MutationDeleteVoteArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationForgotPasswordArgs = {
+  newData: ForgotPasswordInput;
+};
+
+
+export type MutationGetRestoreQuestionArgs = {
+  username: Scalars['String'];
 };
 
 
@@ -148,33 +172,14 @@ export type MutationRegisterArgs = {
 };
 
 
-export type MutationForgotPasswordArgs = {
-  newData: ForgotPasswordInput;
+export type MutationUpdateGameArgs = {
+  updateGameData: UpdateGameInput;
 };
 
 
-export type MutationDeleteUserArgs = {
-  deleteData: DeleteUserInput;
-};
-
-
-export type MutationUploadProfileImageArgs = {
-  file: Scalars['Upload'];
-};
-
-
-export type MutationGetRestoreQuestionArgs = {
-  username: Scalars['String'];
-};
-
-
-export type MutationUploadMultipleArgs = {
+export type MutationUpdateGameWithImagesArgs = {
   files: Array<Scalars['Upload']>;
-};
-
-
-export type MutationCreateReviewArgs = {
-  createReviewInput: CreateReviewInput;
+  newGameData: UpdateGameInput;
 };
 
 
@@ -183,33 +188,28 @@ export type MutationUpdateReviewArgs = {
 };
 
 
-export type MutationDeleteReviewArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationCreateVoteArgs = {
-  createVoteInput: CreateVoteInput;
-};
-
-
 export type MutationUpdateVoteArgs = {
   updateVoteInput: UpdateVoteInput;
 };
 
 
-export type MutationDeleteVoteArgs = {
-  id: Scalars['Int'];
+export type MutationUploadMultipleArgs = {
+  files: Array<Scalars['Upload']>;
+};
+
+
+export type MutationUploadProfileImageArgs = {
+  file: Scalars['Upload'];
 };
 
 export type NewGameInput = {
-  gameName: Scalars['String'];
   basePrice: Scalars['Float'];
-  description: Scalars['String'];
-  publisher: PublisherInput;
   categories: Array<CategoryInput>;
-  retailers: Array<RetailerInput>;
+  description: Scalars['String'];
+  gameName: Scalars['String'];
+  publisher: PublisherInput;
   releaseDate: Scalars['String'];
+  retailers: Array<RetailerInput>;
 };
 
 export type Publisher = {
@@ -225,18 +225,18 @@ export type PublisherInput = {
 
 export type Query = {
   __typename?: 'Query';
+  categories: Array<Category>;
   game: Game;
   gameWithReviews: Game;
   games: Array<Game>;
-  categories: Array<Category>;
   publishers: Array<Publisher>;
-  retailers: Array<Retailer>;
-  user: User;
   questions: Array<RestoreQuestion>;
-  users: Array<User>;
-  reviews: Array<Review>;
+  retailers: Array<Retailer>;
   review: Review;
   reviewByGameId: Array<Review>;
+  reviews: Array<Review>;
+  user: User;
+  users: Array<User>;
   votes: Array<Vote>;
 };
 
@@ -251,11 +251,6 @@ export type QueryGameWithReviewsArgs = {
 };
 
 
-export type QueryUserArgs = {
-  username: Scalars['String'];
-};
-
-
 export type QueryReviewArgs = {
   id: Scalars['Int'];
 };
@@ -265,30 +260,35 @@ export type QueryReviewByGameIdArgs = {
   id: Scalars['Int'];
 };
 
-export type RegisterInput = {
+
+export type QueryUserArgs = {
   username: Scalars['String'];
-  password: Scalars['String'];
+};
+
+export type RegisterInput = {
   confirmPassword: Scalars['String'];
+  password: Scalars['String'];
   questionId: Scalars['Float'];
   restoreAnswer: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type ResponseStatus = {
   __typename?: 'ResponseStatus';
-  status: Scalars['Int'];
   message: Scalars['String'];
+  status: Scalars['Int'];
 };
 
 export type RestoreQuestion = {
   __typename?: 'RestoreQuestion';
-  questionId: Scalars['Float'];
   question: Scalars['String'];
+  questionId: Scalars['Float'];
 };
 
 export type RestoreQuestionOutput = {
   __typename?: 'RestoreQuestionOutput';
-  userId: Scalars['String'];
   question: RestoreQuestion;
+  userId: Scalars['String'];
 };
 
 export type Retailer = {
@@ -304,11 +304,11 @@ export type RetailerInput = {
 
 export type Review = {
   __typename?: 'Review';
-  reviewId: Scalars['Int'];
-  rating: Scalars['Float'];
   comment: Scalars['String'];
-  reviewer: User;
   game: Game;
+  rating: Scalars['Float'];
+  reviewId: Scalars['Int'];
+  reviewer: User;
   votes: Array<Vote>;
 };
 
@@ -319,47 +319,46 @@ export type Role = {
 };
 
 export type UpdateGameInput = {
-  gameName?: Maybe<Scalars['String']>;
   basePrice?: Maybe<Scalars['Float']>;
-  description?: Maybe<Scalars['String']>;
-  publisher?: Maybe<PublisherInput>;
   categories?: Maybe<Array<CategoryInput>>;
-  retailers?: Maybe<Array<RetailerInput>>;
-  releaseDate?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   gameId: Scalars['Int'];
+  gameName?: Maybe<Scalars['String']>;
+  publisher?: Maybe<PublisherInput>;
+  releaseDate?: Maybe<Scalars['String']>;
+  retailers?: Maybe<Array<RetailerInput>>;
 };
 
 export type UpdateReviewInput = {
-  rating?: Maybe<Scalars['Int']>;
   comment?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
   gameId?: Maybe<Scalars['Float']>;
+  rating?: Maybe<Scalars['Int']>;
   reviewId: Scalars['Int'];
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type UpdateVoteInput = {
+  isUpvote?: Maybe<Scalars['Int']>;
   reviewId?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['String']>;
-  isUpvote?: Maybe<Scalars['Int']>;
   voteId: Scalars['Int'];
 };
 
-
 export type User = {
   __typename?: 'User';
+  profileImageName?: Maybe<Scalars['String']>;
+  question: RestoreQuestion;
+  role: Role;
   userId: Scalars['String'];
   username: Scalars['String'];
-  role: Role;
-  question: RestoreQuestion;
-  profileImageName?: Maybe<Scalars['String']>;
 };
 
 export type Vote = {
   __typename?: 'Vote';
-  voteId: Scalars['Int'];
   isUpvote: Scalars['Int'];
   review: Review;
   user: User;
+  voteId: Scalars['Int'];
 };
 
 export type AddGameMutationVariables = Exact<{
@@ -444,19 +443,19 @@ export type GetGameQueryVariables = Exact<{
 }>;
 
 
-export type GetGameQuery = { __typename?: 'Query', game: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> } };
+export type GetGameQuery = { __typename?: 'Query', game: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, releaseDate: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> } };
 
 export type GameWithReviewsQueryVariables = Exact<{
   gameId: Scalars['Int'];
 }>;
 
 
-export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, rating?: Maybe<number>, publisher: { __typename?: 'Publisher', publisherName: string }, categories: Array<{ __typename?: 'Category', categoryName: string }>, reviews: Array<{ __typename?: 'Review', reviewId: number, rating: number, comment: string, reviewer: { __typename?: 'User', userId: string, username: string }, votes: Array<{ __typename?: 'Vote', isUpvote: number, user: { __typename?: 'User', userId: string, username: string } }> }> } };
+export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, rating?: number | null | undefined, publisher: { __typename?: 'Publisher', publisherName: string }, categories: Array<{ __typename?: 'Category', categoryName: string }>, images: Array<{ __typename?: 'GameImage', name: string }>, reviews: Array<{ __typename?: 'Review', reviewId: number, rating: number, comment: string, reviewer: { __typename?: 'User', userId: string, username: string }, votes: Array<{ __typename?: 'Vote', isUpvote: number, user: { __typename?: 'User', userId: string, username: string } }> }> } };
 
 export type AllGamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> }> };
+export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, releaseDate: string, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> }> };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
