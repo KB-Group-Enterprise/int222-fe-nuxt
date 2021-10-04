@@ -51,6 +51,7 @@
         </div>
       </div>
       <div
+        v-if="isAdmin"
         class="
           w-full
           h-full
@@ -124,7 +125,15 @@ export default defineComponent({
     const goGamePage = (gameId: number) => {
       router.push(`/game/${gameId}`);
     };
-    return { games, goGamePage, deleteGame };
+    const isAdmin = computed(() => {
+      const user: any = ctx.$auth.user;
+      if (user) {
+        return user.role.roleName === 'admin';
+      } else {
+        return false;
+      }
+    });
+    return { games, goGamePage, deleteGame, isAdmin };
   },
 });
 </script>
