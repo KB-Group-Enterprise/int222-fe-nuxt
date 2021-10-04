@@ -52,7 +52,7 @@ export default defineComponent({
     const username = ref('boat');
     const password = ref('12345678');
     const isLoading = ref(false);
-    const { $auth } = useContext();
+    const { $auth, $toast } = useContext();
     const error = ref('');
     async function login() {
       error.value = '';
@@ -66,9 +66,10 @@ export default defineComponent({
           data: credential,
         });
         isLoading.value = false;
+        $toast.success('Login success');
       } catch (err) {
         isLoading.value = false;
-        error.value = 'Username or password wrong';
+        $toast.error('Username or password wrong');
       }
     }
     return {

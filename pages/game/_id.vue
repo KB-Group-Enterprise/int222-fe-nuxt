@@ -28,6 +28,7 @@
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
+        :no-data="game.ratings === null ? true : false"
         progress="50"
         size="80"
         line-mode="out 3"
@@ -35,7 +36,6 @@
         empty-color="rgba(255,255,255,0.5)"
         empty-thickness="3"
         thickness="5"
-        :noData="game.ratings === null ? true : false"
       >
         <span slot="legend-value"> </span>
       </vue-ellipse-progress>
@@ -125,7 +125,6 @@ export default defineComponent({
       const route = useRoute();
       const paramId = Number(route.value.params.id);
       fetchGameWithReview(paramId);
-      console.log(game);
     });
 
     function deleteReview(id: number) {

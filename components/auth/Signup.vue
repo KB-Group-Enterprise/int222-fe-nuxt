@@ -112,6 +112,7 @@ import {
   reactive,
   ref,
   useContext,
+  useRouter,
   watch,
 } from '@nuxtjs/composition-api';
 import { useQuery } from '@vue/apollo-composable/dist';
@@ -123,7 +124,8 @@ export default defineComponent({
     const isSignUpLoading = ref(false);
     const questions = ref<RestoreQuestion[]>([]);
     const errorDetail = ref('');
-    const { $axios } = useContext();
+    const router = useRouter();
+    const { $axios, $toast } = useContext();
     const userData = reactive({
       username: 'boat',
       password: '12345678',
@@ -140,8 +142,11 @@ export default defineComponent({
     const signup = async () => {
       try {
         await $axios.post('/auth/register', userData);
+        $toast.success('Register success');
+        router.push('/login');
       } catch (err) {
         if (err) errorDetail.value = 'username already exist';
+        $toast.error('Sorry something wrong. Please try again');
       }
     };
     return {
