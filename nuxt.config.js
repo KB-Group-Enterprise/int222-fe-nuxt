@@ -56,9 +56,10 @@ export default {
 
   apollo: {
     clientConfigs: {
-      default: {
-        httpEndpoint: process.env.API_BASE_URL + '/graphql',
-      },
+      default: '~/graphql/index.js',
+      // default: {
+      //   httpEndpoint: process.env.API_BASE_URL + '/graphql',
+      // },
     },
   },
 
@@ -90,7 +91,9 @@ export default {
   },
 
   sweetalert: {},
-
+  env: {
+    API_BASE_URL: process.env.API_BASE_URL,
+  },
   toast: {
     position: 'bottom-center',
     theme: 'bubble',

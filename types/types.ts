@@ -48,6 +48,12 @@ export type DeleteGameOutput = {
   status: Scalars['String'];
 };
 
+export type DeleteOutput = {
+  __typename?: 'DeleteOutput';
+  id: Scalars['Int'];
+  status: Scalars['String'];
+};
+
 export type DeleteUserInput = {
   userId: Scalars['String'];
 };
@@ -81,7 +87,7 @@ export type GameImage = {
 
 export type ImageOutPut = {
   __typename?: 'ImageOutPut';
-  url: Scalars['String'];
+  imageName: Scalars['String'];
 };
 
 export type Mutation = {
@@ -101,12 +107,11 @@ export type Mutation = {
   me: User;
   refreshToken: Scalars['Boolean'];
   register: Scalars['String'];
-  test: Scalars['String'];
   updateGame: Game;
   updateGameWithImages: Game;
   updateReview: Review;
+  updateRole: Scalars['Boolean'];
   updateVote: Vote;
-  uploadMultiple: Array<Scalars['String']>;
   uploadProfileImage: ImageOutPut;
 };
 
@@ -188,18 +193,22 @@ export type MutationUpdateReviewArgs = {
 };
 
 
+export type MutationUpdateRoleArgs = {
+  updateRoleData: UpdateRoleInput;
+};
+
+
 export type MutationUpdateVoteArgs = {
   updateVoteInput: UpdateVoteInput;
 };
 
 
-export type MutationUploadMultipleArgs = {
-  files: Array<Scalars['Upload']>;
-};
-
-
 export type MutationUploadProfileImageArgs = {
   file: Scalars['Upload'];
+};
+
+export type NewCategoryInput = {
+  categoryName: Scalars['String'];
 };
 
 export type NewGameInput = {
@@ -210,6 +219,14 @@ export type NewGameInput = {
   publisher: PublisherInput;
   releaseDate: Scalars['String'];
   retailers: Array<RetailerInput>;
+};
+
+export type NewPublisherInput = {
+  publisherName: Scalars['String'];
+};
+
+export type NewRetailerInput = {
+  retailerId: Scalars['Int'];
 };
 
 export type Publisher = {
@@ -225,19 +242,66 @@ export type PublisherInput = {
 
 export type Query = {
   __typename?: 'Query';
+  addCategory: Category;
+  addPublisher: Publisher;
+  addRetailer: Retailer;
   categories: Array<Category>;
+  category: Category;
+  deleteCategory: DeleteOutput;
+  deletePublisher: DeleteOutput;
+  deleteRetailer: DeleteOutput;
   game: Game;
   gameWithReviews: Game;
   games: Array<Game>;
+  publisher: Publisher;
   publishers: Array<Publisher>;
   questions: Array<RestoreQuestion>;
+  retailer: Retailer;
   retailers: Array<Retailer>;
   review: Review;
   reviewByGameId: Array<Review>;
   reviews: Array<Review>;
+  updateCategory: Category;
+  updatePublisher: Publisher;
+  updateRetailer: Retailer;
   user: User;
   users: Array<User>;
   votes: Array<Vote>;
+};
+
+
+export type QueryAddCategoryArgs = {
+  addCategoryData: NewCategoryInput;
+};
+
+
+export type QueryAddPublisherArgs = {
+  addPublisherData: NewPublisherInput;
+};
+
+
+export type QueryAddRetailerArgs = {
+  addRetailerData: NewRetailerInput;
+};
+
+
+export type QueryCategoryArgs = {
+  categoryId: Scalars['Int'];
+};
+
+
+export type QueryDeleteCategoryArgs = {
+  categoryId: Scalars['Int'];
+};
+
+
+export type QueryDeletePublisherArgs = {
+  publisherId: Scalars['Int'];
+};
+
+
+export type QueryDeleteRetailerArgs = {
+  retailerId: Scalars['Int'];
 };
 
 
@@ -251,6 +315,16 @@ export type QueryGameWithReviewsArgs = {
 };
 
 
+export type QueryPublisherArgs = {
+  publisherId: Scalars['Int'];
+};
+
+
+export type QueryRetailerArgs = {
+  retailerId: Scalars['Int'];
+};
+
+
 export type QueryReviewArgs = {
   id: Scalars['Int'];
 };
@@ -258,6 +332,21 @@ export type QueryReviewArgs = {
 
 export type QueryReviewByGameIdArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryUpdateCategoryArgs = {
+  updateCategoryData: CategoryInput;
+};
+
+
+export type QueryUpdatePublisherArgs = {
+  updatePublisherData: PublisherInput;
+};
+
+
+export type QueryUpdateRetailerArgs = {
+  updateRetailerData: RetailerInput;
 };
 
 
@@ -335,6 +424,11 @@ export type UpdateReviewInput = {
   rating?: Maybe<Scalars['Int']>;
   reviewId: Scalars['Int'];
   userId?: Maybe<Scalars['String']>;
+};
+
+export type UpdateRoleInput = {
+  role: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type UpdateVoteInput = {
