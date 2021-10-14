@@ -10,7 +10,7 @@
       backdrop-filter backdrop-blur-lg
     "
   >
-  <div class="font-bold text-4xl text-center pb-5">Forgot Password</div>
+    <div class="font-bold text-4xl text-center pb-5">Forgot Password</div>
     <form class="form-control w-full" @submit.prevent="resetPassword">
       <label class="label" for="username">Username</label>
       <input
@@ -65,6 +65,7 @@ import {
   onMounted,
   reactive,
   ref,
+  useContext,
 } from '@nuxtjs/composition-api';
 import { useMutation } from '@vue/apollo-composable/dist';
 import GetRestoreQuestion from '@/graphql/mutations/getRestoreQuestion.gql';
@@ -78,6 +79,7 @@ export default defineComponent({
     const newPassword = ref('');
     const isFoundUsername = ref(false);
     const error = reactive({ username: '', answer: '' });
+    const { $toast } = useContext();
     const { mutate: getRestoreQuestion, loading: isQuestionLoading } =
       useMutation(GetRestoreQuestion);
     const { mutate: forgotPassword, loading: isResetPasswordLoading } =
@@ -104,6 +106,7 @@ export default defineComponent({
           username: username.value,
         }).catch(() => {
           error.username = 'Please check your username again';
+          $toast.error("Your username doesn't exist");
         });
         if (res) {
           questionOutput.value = res.data
