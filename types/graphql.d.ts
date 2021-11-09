@@ -89,6 +89,15 @@ declare module '*/updateReview.gql' {
 }
     
 
+declare module '*/updateRole.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateRole: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/attributes.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -138,6 +147,15 @@ declare module '*/review.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ReviewsInGame: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/users.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Users: DocumentNode;
 
   export default defaultDocument;
 }

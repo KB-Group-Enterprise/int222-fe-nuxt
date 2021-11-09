@@ -1,0 +1,6 @@
+mutation AddRetailer($newRetailerData: NewRetailerInput!) {
+  addRetailer(addRetailerData: $newRetailerData) {
+    retailerId
+    retailerName
+  }
+}

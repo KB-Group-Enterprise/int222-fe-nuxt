@@ -1,0 +1,6 @@
+query getRetailers {
+  retailers {
+    retailerId
+    retailerName
+  }
+}

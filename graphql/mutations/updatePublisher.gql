@@ -1,0 +1,6 @@
+mutation UpdatPublisherData($newPublisherData: PublisherInput!) {
+  updatePublisher(updatePublisherData: $newPublisherData) {
+    publisherId
+    publisherName
+  }
+}

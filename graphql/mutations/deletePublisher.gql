@@ -1,0 +1,6 @@
+mutation DeletePublisher($id: Int!) {
+	deletePublisher(publisherId: $id) {
+    id
+    status
+  }
+}

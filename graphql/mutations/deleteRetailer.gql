@@ -1,0 +1,6 @@
+mutation DeleteRetailer($id: Int!) {
+	deleteRetailer(retailerId: $id) {
+    id
+    status
+  }
+}

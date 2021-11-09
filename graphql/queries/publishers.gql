@@ -1,0 +1,6 @@
+query getPublishers {
+  publishers {
+    publisherId
+    publisherName
+  }
+}
