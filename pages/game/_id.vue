@@ -1,5 +1,5 @@
 <template>
-  <div v-if="game" class="overflow-hidden relative">
+  <div v-if="game" class="overflow-hidden relative pb-10 mb-10">
     <img
       class="w-full h-80 object-cover"
       :src="
@@ -46,7 +46,7 @@
       v-slot="{ handleSubmit }"
       class="mt-10"
     >
-      <form @submit.prevent="handleSubmit(sendReview)">
+      <form class="mx-3" @submit.prevent="handleSubmit(sendReview)">
         <label class="label" for="ratings">Ratings</label>
         <ValidationProvider
           v-slot="{ errors }"
@@ -84,13 +84,15 @@
     <div v-else class="flex flex-col mt-20">
       <p>You need to login before comment</p>
     </div>
-    <GameComment
-      v-for="comment in comments"
-      :key="comment.reviewId"
-      :review="comment"
-      :game-id="game.gameId"
-      @delete-review="deleteReview"
-    ></GameComment>
+    <div class="flex flex-col px-3 w-full items-center">
+      <GameComment
+        v-for="comment in comments"
+        :key="comment.reviewId"
+        :review="comment"
+        :game-id="game.gameId"
+        @delete-review="deleteReview"
+      ></GameComment>
+    </div>
   </div>
 </template>
 

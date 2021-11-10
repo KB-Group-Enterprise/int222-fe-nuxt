@@ -25,10 +25,6 @@ query GameWithReviews($gameId: Int!) {
       }
       votes {
         isUpvote
-        user {
-          userId
-          username
-        }
       }
     }
   }

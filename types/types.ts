@@ -455,6 +455,13 @@ export type Vote = {
   voteId: Scalars['Int'];
 };
 
+export type AddCategoryMutationVariables = Exact<{
+  newCategoryData: NewCategoryInput;
+}>;
+
+
+export type AddCategoryMutation = { __typename?: 'Mutation', addCategory: { __typename?: 'Category', categoryId: number, categoryName: string } };
+
 export type AddGameMutationVariables = Exact<{
   newGameData: NewGameInput;
 }>;
@@ -470,6 +477,20 @@ export type AddGameWithImagesMutationVariables = Exact<{
 
 export type AddGameWithImagesMutation = { __typename?: 'Mutation', addGameWithImages: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
 
+export type AddPublisherMutationVariables = Exact<{
+  newPublisherData: NewPublisherInput;
+}>;
+
+
+export type AddPublisherMutation = { __typename?: 'Mutation', addPublisher: { __typename?: 'Publisher', publisherId: number, publisherName: string } };
+
+export type AddRetailerMutationVariables = Exact<{
+  newRetailerData: NewRetailerInput;
+}>;
+
+
+export type AddRetailerMutation = { __typename?: 'Mutation', addRetailer: { __typename?: 'Retailer', retailerId: number, retailerName: string } };
+
 export type CreateReviewMutationVariables = Exact<{
   reviewData: CreateReviewInput;
 }>;
@@ -477,12 +498,33 @@ export type CreateReviewMutationVariables = Exact<{
 
 export type CreateReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'Review', reviewId: number, comment: string, rating: number, reviewer: { __typename?: 'User', userId: string, username: string } } };
 
+export type DeleteCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'DeleteOutput', id: number, status: string } };
+
 export type DeleteGameMutationVariables = Exact<{
   gameId: Scalars['Int'];
 }>;
 
 
 export type DeleteGameMutation = { __typename?: 'Mutation', deleteGame: { __typename?: 'DeleteGameOutput', gameId: number, status: string } };
+
+export type DeletePublisherMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeletePublisherMutation = { __typename?: 'Mutation', deletePublisher: { __typename?: 'DeleteOutput', id: number, status: string } };
+
+export type DeleteRetailerMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteRetailerMutation = { __typename?: 'Mutation', deleteRetailer: { __typename?: 'DeleteOutput', id: number, status: string } };
 
 export type DeleteReviewMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -505,6 +547,13 @@ export type GetRestoreQuestionMutationVariables = Exact<{
 
 export type GetRestoreQuestionMutation = { __typename?: 'Mutation', getRestoreQuestion: { __typename?: 'RestoreQuestionOutput', userId: string, question: { __typename?: 'RestoreQuestion', questionId: number, question: string } } };
 
+export type UpdateCategoryMutationVariables = Exact<{
+  newCategoryData: CategoryInput;
+}>;
+
+
+export type UpdateCategoryMutation = { __typename?: 'Mutation', updateCategory: { __typename?: 'Category', categoryId: number, categoryName: string } };
+
 export type UpdateGameMutationVariables = Exact<{
   updateGameData: UpdateGameInput;
 }>;
@@ -519,6 +568,20 @@ export type UpdateGameWithImagesMutationVariables = Exact<{
 
 
 export type UpdateGameWithImagesMutation = { __typename?: 'Mutation', updateGameWithImages: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> } };
+
+export type UpdatPublisherDataMutationVariables = Exact<{
+  newPublisherData: PublisherInput;
+}>;
+
+
+export type UpdatPublisherDataMutation = { __typename?: 'Mutation', updatePublisher: { __typename?: 'Publisher', publisherId: number, publisherName: string } };
+
+export type UpdateRetailerMutationVariables = Exact<{
+  newRetailerData: RetailerInput;
+}>;
+
+
+export type UpdateRetailerMutation = { __typename?: 'Mutation', updateRetailer: { __typename?: 'Retailer', retailerId: number, retailerName: string } };
 
 export type UpdateReviewMutationVariables = Exact<{
   updateReviewInput: UpdateReviewInput;
@@ -539,6 +602,11 @@ export type GetGameAttributesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetGameAttributesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, publishers: Array<{ __typename?: 'Publisher', publisherId: number, publisherName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> };
 
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }> };
+
 export type GetGameQueryVariables = Exact<{
   gameId: Scalars['Int'];
 }>;
@@ -551,17 +619,27 @@ export type GameWithReviewsQueryVariables = Exact<{
 }>;
 
 
-export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, rating?: number | null | undefined, publisher: { __typename?: 'Publisher', publisherName: string }, categories: Array<{ __typename?: 'Category', categoryName: string }>, images: Array<{ __typename?: 'GameImage', name: string }>, reviews: Array<{ __typename?: 'Review', reviewId: number, rating: number, comment: string, reviewer: { __typename?: 'User', userId: string, username: string }, votes: Array<{ __typename?: 'Vote', isUpvote: number, user: { __typename?: 'User', userId: string, username: string } }> }> } };
+export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, rating?: number | null | undefined, publisher: { __typename?: 'Publisher', publisherName: string }, categories: Array<{ __typename?: 'Category', categoryName: string }>, images: Array<{ __typename?: 'GameImage', name: string }>, reviews: Array<{ __typename?: 'Review', reviewId: number, rating: number, comment: string, reviewer: { __typename?: 'User', userId: string, username: string }, votes: Array<{ __typename?: 'Vote', isUpvote: number }> }> } };
 
 export type AllGamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, releaseDate: string, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> }> };
 
+export type GetPublishersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPublishersQuery = { __typename?: 'Query', publishers: Array<{ __typename?: 'Publisher', publisherId: number, publisherName: string }> };
+
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type Unnamed_1_Query = { __typename?: 'Query', questions: Array<{ __typename?: 'RestoreQuestion', questionId: number, question: string }> };
+
+export type GetRetailersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRetailersQuery = { __typename?: 'Query', retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }> };
 
 export type ReviewsInGameQueryVariables = Exact<{
   id: Scalars['Int'];

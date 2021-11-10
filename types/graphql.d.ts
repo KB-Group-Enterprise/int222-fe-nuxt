@@ -1,4 +1,13 @@
 
+declare module '*/addCategory.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AddCategory: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/addGame.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -17,6 +26,24 @@ declare module '*/addGameWithImages.gql' {
 }
     
 
+declare module '*/addPublisher.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AddPublisher: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/addRetailer.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AddRetailer: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/createReview.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -26,10 +53,37 @@ declare module '*/createReview.gql' {
 }
     
 
+declare module '*/deleteCategory.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const DeleteCategory: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/deleteGame.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const deleteGame: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/deletePublisher.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const DeletePublisher: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/deleteRetailer.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const DeleteRetailer: DocumentNode;
 
   export default defaultDocument;
 }
@@ -62,6 +116,15 @@ declare module '*/getRestoreQuestion.gql' {
 }
     
 
+declare module '*/updateCategory.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateCategory: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/updateGame.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -75,6 +138,24 @@ declare module '*/updateGameWithImages.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const updateGameWithImages: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/updatePublisher.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdatPublisherData: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/updateRetailer.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateRetailer: DocumentNode;
 
   export default defaultDocument;
 }
@@ -107,6 +188,15 @@ declare module '*/attributes.gql' {
 }
     
 
+declare module '*/categories.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const getCategories: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/game.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -134,10 +224,28 @@ declare module '*/games.gql' {
 }
     
 
+declare module '*/publishers.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const getPublishers: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/question.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/retailers.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const getRetailers: DocumentNode;
 
   export default defaultDocument;
 }
