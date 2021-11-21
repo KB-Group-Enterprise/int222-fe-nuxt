@@ -1,5 +1,10 @@
 mutation CreateVote($createVoteInput: CreateVoteInput!) {
   createVote(createVoteInput: $createVoteInput) {
     voteId
+    isUpvote
+    user {
+      userId
+      username
+    }
   }
 }
