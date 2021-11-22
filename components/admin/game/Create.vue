@@ -4,7 +4,6 @@
 <script lang="ts">
 import { useMutation } from '@vue/apollo-composable/dist';
 import { defineComponent } from '@vue/composition-api';
-// import AddGame from '@/graphql/mutations/addGame.gql';
 import AddGameWithImages from '@/graphql/mutations/addGameWithImages.gql';
 import { useContext, useRouter } from '@nuxtjs/composition-api';
 import { formatFormToGame } from '@/composables/services/gameService';

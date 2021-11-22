@@ -1,5 +1,9 @@
 <template>
   <common-container>
+    <LandingGameFilter
+      :default-filter="gameFilter"
+      @update="handleFilterUpdate"
+    ></LandingGameFilter>
     <div class="w-full grid grid-cols-3 gap-4 mt-20">
       <div
         v-for="game in games"
@@ -43,7 +47,7 @@
             <button
               v-if="$auth.user.role.roleName === 'admin'"
               class="btn btn-error"
-              @click.stop="deleteGame({ gameId: game.gameId })"
+              @click.stop="deleteGamePrompt({ gameId: game.gameId })"
             >
               Delete
             </button>
@@ -71,6 +75,13 @@
         <div class="font-bold">ADD GAME</div>
       </div>
     </div>
+    <div v-if="meta" class="flex justify-center my-10">
+      <CommonPagination
+        :total-page="meta.totalPages"
+        :current-page="page"
+        @onChangePage="handlePageChange"
+      ></CommonPagination>
+    </div>
   </common-container>
 </template>
 
@@ -82,28 +93,56 @@ import {
   useContext,
   useRouter,
   computed,
+  reactive,
 } from '@nuxtjs/composition-api';
 import { useMutation, useQuery } from '@vue/apollo-composable/dist';
-import GamesQuery from '@/graphql/queries/games.gql';
+import GamesPaginateGQL from '@/graphql/queries/gamesPaginate.gql';
 import deleteGameGQL from '@/graphql/mutations/deleteGame.gql';
-import { Game } from '~/types/types';
+import { Game, GamePaginaionMeta, GamePaginationOutput } from '~/types/types';
+import { FilterOption } from '~/types/type';
 
 export default defineComponent({
   setup() {
     const ctx = useContext();
+    const page = ref(1);
+    const limit = ref(10);
     const games = ref<Game[]>();
-    const { onResult, refetch } = useQuery(GamesQuery);
+    const gameFilter = reactive<FilterOption>({
+      sortBy: '',
+      order: 'ASC',
+      filterBy: [],
+      filter: [],
+    });
+    const meta = ref<GamePaginaionMeta>();
+    const { onResult: onGameResult, refetch: gameRefetch } = useQuery(
+      GamesPaginateGQL,
+      { limit: limit.value, page: page.value, ...gameFilter }
+    );
     const {
       mutate: deleteGame,
       onError: onDeleteError,
       onDone: onDeleteDone,
     } = useMutation(deleteGameGQL);
-    onResult((result) => {
-      games.value = result.data.games;
+    onGameResult((result) => {
+      const output: GamePaginationOutput = result.data.paginateGames;
+      games.value = output.items;
+      meta.value = output.meta;
     });
     onBeforeMount(() => {
-      refetch();
+      gameRefetch();
     });
+    const deleteGamePrompt = async (deleteGameArgs: { gameId: number }) => {
+      const result = await ctx.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      });
+      if (result.isConfirmed) deleteGame(deleteGameArgs);
+    };
     onDeleteError(() => {
       ctx.$swal({
         title: 'เกิดข้อผิดผลาด',
@@ -119,7 +158,7 @@ export default defineComponent({
         timerProgressBar: true,
         icon: 'success',
       });
-      refetch();
+      gameRefetch();
     });
     const router = useRouter();
     const goGamePage = (gameId: number) => {
@@ -133,7 +172,25 @@ export default defineComponent({
         return false;
       }
     });
-    return { games, goGamePage, deleteGame, isAdmin };
+    const handleFilterUpdate = (filterOption: FilterOption) => {
+      Object.assign(filterOption, gameFilter);
+      gameRefetch({ limit: limit.value, page: page.value, ...gameFilter });
+    };
+    const handlePageChange = (newPage: number) => {
+      page.value = newPage;
+      gameRefetch({ limit: limit.value, page: page.value, ...gameFilter });
+    };
+    return {
+      games,
+      goGamePage,
+      deleteGamePrompt,
+      isAdmin,
+      handleFilterUpdate,
+      gameFilter,
+      meta,
+      page,
+      handlePageChange
+    };
   },
 });
 </script>
