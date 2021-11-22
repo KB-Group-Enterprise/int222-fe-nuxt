@@ -24,7 +24,12 @@ query GameWithReviews($gameId: Int!) {
         username
       }
       votes {
+        voteId
         isUpvote
+        user {
+          userId
+          username
+        }
       }
     }
   }

@@ -19,29 +19,37 @@
         data-prefix="fas"
         data-icon="caret-up"
         class="svg-inline--fa fa-caret-up fa-w-10 text-4xl cursor-pointer"
+        :class="[isUpvote && $auth.user ? 'text-green-500' : '']"
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"
+        @click="isUpvote = true"
       >
         <path
           fill="currentColor"
           d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z"
         ></path>
       </svg>
-      <h4 class="text-sm text-green-500">0</h4>
+      <h4 class="text-sm text-green-500">
+        {{ upVoteLength ? upVoteLength : 0 }}
+      </h4>
       <div class="flex text-lg font-bold">
         {{ updateData.rating }}
       </div>
-      <h4 class="text-sm text-red-500">0</h4>
+      <h4 class="text-sm text-red-500">
+        {{ downVoteLength ? downVoteLength : 0 }}
+      </h4>
       <svg
         aria-hidden="true"
         focusable="false"
         data-prefix="fas"
         data-icon="caret-down"
         class="svg-inline--fa fa-caret-down fa-w-10 text-4xl cursor-pointer"
+        :class="[isUpvote === false && $auth.user ? 'text-red-500' : '']"
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"
+        @click="isUpvote = false"
       >
         <path
           fill="currentColor"
@@ -112,12 +120,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api';
+import {
+  defineComponent,
+  onBeforeMount,
+  onMounted,
+  reactive,
+  ref,
+  useContext,
+  useRouter,
+  watch,
+} from '@nuxtjs/composition-api';
 import {
   deleteReview,
   updateReview,
 } from '@/composables/services/reviewService';
-import { Review, UpdateReviewInput, User } from '~/types/types';
+import {
+  getUpandDownVote,
+  handleVote,
+  updateVote,
+} from '@/composables/services/voteService';
+import {
+  Review,
+  UpdateReviewInput,
+  UpdateVoteInput,
+  User,
+  Vote,
+} from '~/types/types';
 
 export default defineComponent({
   props: {
@@ -134,6 +162,50 @@ export default defineComponent({
     const { $auth } = useContext();
     const currentUser = $auth.user as User;
     const reviewer = review.reviewer;
+    const votes = review.votes;
+    let voteContainOwner: Vote | undefined;
+    const isUpvote = ref<boolean | null>(null);
+    const isFirstLoadComplete = ref(false);
+    const findUserInVotes = () => {
+      voteContainOwner = votes.find(
+        (vote) => vote.user.userId === $auth.user?.userId
+      );
+    };
+    const { $toast } = useContext();
+    const { upVoteLength, downVoteLength } = getUpandDownVote(votes);
+    const { sendVote } = handleVote(
+      review.reviewId,
+      $auth.user?.userId as string,
+      upVoteLength,
+      downVoteLength,
+      votes
+    );
+    const { mutateVote } = updateVote();
+
+    onBeforeMount(() => {
+      findUserInVotes();
+      isUpvote.value = !voteContainOwner
+        ? null
+        : voteContainOwner.isUpvote >= 1;
+      isFirstLoadComplete.value = true;
+      watch(isUpvote, (_, prev) => {
+        // if prev = null, It's mean user never vote before
+        if (!$auth.user) return $toast.error('You need to login before vote');
+        if (!isFirstLoadComplete.value) return;
+        if (prev === null) {
+          if (isUpvote.value === true) sendVote(true);
+          else if (isUpvote.value === false) sendVote(false);
+        } else {
+          findUserInVotes();
+          const payload: UpdateVoteInput = {
+            voteId: voteContainOwner!.voteId,
+            reviewId: review.reviewId,
+            userId: $auth.user!.userId as string,
+          };
+          mutateVote(isUpvote, upVoteLength, downVoteLength, payload);
+        }
+      });
+    });
     const updateData = reactive<UpdateReviewInput>({
       reviewId: review.reviewId,
       rating: review.rating,
@@ -154,6 +226,9 @@ export default defineComponent({
       updateData,
       changeIsEdit,
       removeReview,
+      upVoteLength,
+      downVoteLength,
+      isUpvote,
     };
   },
 });
