@@ -1,0 +1,13 @@
+query searchGames($gameName: String!) {
+    searchGames(gameName :$gameName) {
+    gameId
+    gameName
+    basePrice
+    description
+    releaseDate
+    rating
+    images {
+      name
+    }
+  }
+}
