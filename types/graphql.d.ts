@@ -53,6 +53,15 @@ declare module '*/createReview.gql' {
 }
     
 
+declare module '*/createVote.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateVote: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/deleteCategory.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -174,6 +183,15 @@ declare module '*/updateRole.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const UpdateRole: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/updateVote.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UpdateVote: DocumentNode;
 
   export default defaultDocument;
 }

@@ -46,27 +46,32 @@
       v-slot="{ handleSubmit }"
       class="mt-10"
     >
-      <form class="mx-3" @submit.prevent="handleSubmit(sendReview)">
+      <form
+        class="
+          mx-3
+          flex flex-col
+          mt-32
+          mb-10
+          md:flex-row md:mt-10
+          justify-between
+          xl:justify-around
+        "
+        @submit.prevent="handleSubmit(sendReview)"
+      >
         <label class="label" for="ratings">Ratings</label>
-        <ValidationProvider
-          v-slot="{ errors }"
-          name="Ratings"
-          rules="required|min_value:0|max_value:10"
-        >
-          <input
-            id="ratings"
-            v-model="reviewData.rating"
-            class="input input-bordered"
-            type="number"
-          /><br />
-          <error-text :error="errors[0]"></error-text>
-        </ValidationProvider>
+        <GameRatingStar @set-score="setScore" />
+        <!-- <input
+          id="ratings"
+          v-model="reviewData.rating"
+          class="input input-bordered"
+          type="number"
+        /><br /> -->
         <label class="label" for="comment">Comment</label>
         <ValidationProvider v-slot="{ errors }" name="Comment" rules="required">
           <input
             id="comment"
             v-model="reviewData.comment"
-            class="input input-bordered"
+            class="input input-bordered w-full xl:w-72"
             type="text"
           /><br />
           <error-text :error="errors[0]"></error-text>
@@ -136,6 +141,9 @@ export default defineComponent({
         1
       );
     }
+    function setScore(rating: number) {
+      reviewData.rating = rating;
+    }
     return {
       game,
       reviewData,
@@ -144,9 +152,8 @@ export default defineComponent({
       comments,
       deleteReview,
       fadeStyle,
+      setScore,
     };
   },
 });
 </script>
-
-<style></style>

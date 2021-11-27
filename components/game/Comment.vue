@@ -33,8 +33,10 @@
       <h4 class="text-sm text-green-500">
         {{ upVoteLength ? upVoteLength : 0 }}
       </h4>
-      <div class="flex text-lg font-bold">
-        {{ updateData.rating }}
+      <div class="flex text-lg font-bold items-center my-2">
+        <span class="mx-1">{{ ratingScore }}</span>
+
+        <i class="fas fa-star mr-1 star"></i>
       </div>
       <h4 class="text-sm text-red-500">
         {{ downVoteLength ? downVoteLength : 0 }}
@@ -121,6 +123,7 @@
 
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   onBeforeMount,
   onMounted,
@@ -159,7 +162,7 @@ export default defineComponent({
     },
   },
   setup({ review, gameId }, { emit }) {
-    const { $auth } = useContext();
+    const { $auth, $toast } = useContext();
     const currentUser = $auth.user as User;
     const reviewer = review.reviewer;
     const votes = review.votes;
@@ -167,11 +170,13 @@ export default defineComponent({
     const isUpvote = ref<boolean | null>(null);
     const isFirstLoadComplete = ref(false);
     const findUserInVotes = () => {
-      voteContainOwner = votes.find(
-        (vote) => vote.user.userId === $auth.user?.userId
-      );
+      if (votes) {
+        voteContainOwner = votes.find(
+          (vote) => vote.user.userId === $auth.user?.userId
+        );
+      }
     };
-    const { $toast } = useContext();
+    const ratingScore = computed(() => review.rating / 2);
     const { upVoteLength, downVoteLength } = getUpandDownVote(votes);
     const { sendVote } = handleVote(
       review.reviewId,
@@ -181,6 +186,13 @@ export default defineComponent({
       votes
     );
     const { mutateVote } = updateVote();
+    const updateData = reactive<UpdateReviewInput>({
+      reviewId: review.reviewId,
+      rating: review.rating,
+      comment: review.comment,
+      userId: reviewer.userId,
+      gameId,
+    });
 
     onBeforeMount(() => {
       findUserInVotes();
@@ -206,13 +218,6 @@ export default defineComponent({
         }
       });
     });
-    const updateData = reactive<UpdateReviewInput>({
-      reviewId: review.reviewId,
-      rating: review.rating,
-      comment: review.comment,
-      userId: reviewer.userId,
-      gameId,
-    });
     const { changeIsEdit, edit, isEdit } = updateReview(
       reviewer,
       updateData,
@@ -229,7 +234,13 @@ export default defineComponent({
       upVoteLength,
       downVoteLength,
       isUpvote,
+      ratingScore,
     };
   },
 });
 </script>
+<style scoped>
+.star {
+  color: orange;
+}
+</style>

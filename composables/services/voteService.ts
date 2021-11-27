@@ -5,8 +5,12 @@ import CreateVoteMutation from '@/graphql/mutations/createVote.gql';
 import { CreateVoteInput, UpdateVoteInput, User, Vote } from '~/types/types';
 
 export function getUpandDownVote(votes: Vote[]) {
-  const upVoteLength = ref(votes.filter((vote) => vote.isUpvote >= 1).length);
-  const downVoteLength = ref(votes.filter((vote) => vote.isUpvote < 1).length);
+  const upVoteLength = ref(0);
+  const downVoteLength = ref(0);
+  if (votes) {
+    upVoteLength.value = votes.filter((vote) => vote.isUpvote >= 1).length;
+    downVoteLength.value = votes.filter((vote) => vote.isUpvote < 0).length;
+  }
   return {
     upVoteLength,
     downVoteLength,

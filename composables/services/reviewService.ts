@@ -1,5 +1,5 @@
 import { useContext, ref, Ref } from '@nuxtjs/composition-api';
-import { useMutation } from '@vue/apollo-composable/dist';
+import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import UpdateReviewMutation from '@/graphql/mutations/updateReview.gql';
 import DeleteReviewMutation from '@/graphql/mutations/deleteReview.gql';
 import CreateReviewMutation from '@/graphql/mutations/createReview.gql';
@@ -63,30 +63,49 @@ export function deleteReview({ reviewId, comment }: Review, emit: any) {
     removeReview,
   };
 }
-
+// export function prepareFetchReview(gameId: number) {
+//   const reviews = ref<Review[]>([]);
+//   const fetchReview = () => {
+//     const { onResult, onError: onReviewsError } = useQuery(ReviewsInGame, {
+//       gameId,
+//     });
+//     onResult((reviewResult) => {
+//       reviews.value = reviewResult.data.gameWithReviews.reviews as Review[];
+//       console.log('result in fn', reviews.value);
+//     });
+//     onReviewsError((error) => {
+//       console.log(error);
+//     });
+//   };
+//   return {
+//     fetchReview,
+//     reviews,
+//   };
+// }
 export function createReview(
   reviewData: CreateReviewInput,
   comments: Ref<Review[]>
 ) {
   const { $auth, $toast } = useContext();
-  const { mutate: send, loading: isCreating } =
-    useMutation(CreateReviewMutation);
-  const sendReview = async () => {
-    try {
-      const user = $auth.user as User;
-      reviewData.userId = user.userId;
-      reviewData.rating = Number(reviewData.rating);
-      const res = await send({ reviewData });
-      if (res) {
-        if (res.data) {
-          const comment = res.data.createReview as Review;
-          comments.value.push(comment);
-          $toast.success('Send Review success');
-        }
-      }
-    } catch (err) {
+  const {
+    mutate: send,
+    loading: isCreating,
+    onDone,
+    onError,
+  } = useMutation(CreateReviewMutation);
+
+  const sendReview = () => {
+    const user = $auth.user as User;
+    reviewData.userId = user.userId;
+    send({ reviewData });
+    onDone((result) => {
+      const comment = result.data.createReview as Review;
+      comments.value.push(comment);
+      $toast.success('Send Review success');
+    });
+    onError(() => {
       $toast.error('Send Review failed');
-    }
+    });
   };
   return {
     isCreating,

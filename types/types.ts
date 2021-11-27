@@ -498,6 +498,13 @@ export type CreateReviewMutationVariables = Exact<{
 
 export type CreateReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'Review', reviewId: number, comment: string, rating: number, reviewer: { __typename?: 'User', userId: string, username: string } } };
 
+export type CreateVoteMutationVariables = Exact<{
+  createVoteInput: CreateVoteInput;
+}>;
+
+
+export type CreateVoteMutation = { __typename?: 'Mutation', createVote: { __typename?: 'Vote', voteId: number, isUpvote: number, user: { __typename?: 'User', userId: string, username: string } } };
+
 export type DeleteCategoryMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -597,6 +604,13 @@ export type UpdateRoleMutationVariables = Exact<{
 
 export type UpdateRoleMutation = { __typename?: 'Mutation', updateRole: boolean };
 
+export type UpdateVoteMutationVariables = Exact<{
+  updateVoteInput: UpdateVoteInput;
+}>;
+
+
+export type UpdateVoteMutation = { __typename?: 'Mutation', updateVote: { __typename?: 'Vote', voteId: number } };
+
 export type GetGameAttributesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -619,7 +633,7 @@ export type GameWithReviewsQueryVariables = Exact<{
 }>;
 
 
-export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, rating?: number | null | undefined, publisher: { __typename?: 'Publisher', publisherName: string }, categories: Array<{ __typename?: 'Category', categoryName: string }>, images: Array<{ __typename?: 'GameImage', name: string }>, reviews: Array<{ __typename?: 'Review', reviewId: number, rating: number, comment: string, reviewer: { __typename?: 'User', userId: string, username: string }, votes: Array<{ __typename?: 'Vote', isUpvote: number }> }> } };
+export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, rating?: number | null | undefined, publisher: { __typename?: 'Publisher', publisherName: string }, categories: Array<{ __typename?: 'Category', categoryName: string }>, images: Array<{ __typename?: 'GameImage', name: string }>, reviews: Array<{ __typename?: 'Review', reviewId: number, rating: number, comment: string, reviewer: { __typename?: 'User', userId: string, username: string }, votes: Array<{ __typename?: 'Vote', voteId: number, isUpvote: number, user: { __typename?: 'User', userId: string, username: string } }> }> } };
 
 export type AllGamesQueryVariables = Exact<{ [key: string]: never; }>;
 
