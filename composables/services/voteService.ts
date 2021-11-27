@@ -46,9 +46,11 @@ export function handleVote(
       if (isUpVote) upVoteLength.value += 1;
       else downVoteLength.value -= 1;
       votes.push(vote);
+      $toast.success('Vote success');
     });
-    onError(() => {
-      $toast.error('Create vote failed');
+    onError((error) => {
+      console.log(error);
+      $toast.error('Vote failed');
     });
   };
   return {
@@ -67,16 +69,29 @@ export function updateVote() {
     currentVote: Ref<boolean | null>,
     upVoteLength: Ref<number>,
     downVoteLength: Ref<number>,
-    updateVoteData: UpdateVoteInput
+    updateVoteData: UpdateVoteInput,
+    prev: boolean
   ) => {
-    if (currentVote.value) {
+    if (currentVote.value && prev !== null) {
       updateVoteData.isUpvote = 10;
       downVoteLength.value -= 1;
       upVoteLength.value += 1;
-    } else {
+    } else if (currentVote.value === false && prev !== null) {
       updateVoteData.isUpvote = -1;
       upVoteLength.value -= 1;
       downVoteLength.value += 1;
+    } else if (currentVote.value === null && prev !== null) {
+      updateVoteData.isUpvote = 0;
+      if (prev) upVoteLength.value -= 1;
+      else if (prev === false) downVoteLength.value -= 1;
+    } else if (prev === null) {
+      if (currentVote.value) {
+        updateVoteData.isUpvote = 10;
+        upVoteLength.value += 1;
+      } else {
+        updateVoteData.isUpvote = -1;
+        downVoteLength.value += 1;
+      }
     }
     updateVote({ updateVoteInput: updateVoteData });
     onDone(() => {

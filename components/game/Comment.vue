@@ -23,7 +23,7 @@
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"
-        @click="isUpvote = true"
+        @click="setIsUpVote(true)"
       >
         <path
           fill="currentColor"
@@ -51,7 +51,7 @@
         role="img"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 320 512"
-        @click="isUpvote = false"
+        @click="setIsUpVote(false)"
       >
         <path
           fill="currentColor"
@@ -198,13 +198,15 @@ export default defineComponent({
       findUserInVotes();
       isUpvote.value = !voteContainOwner
         ? null
+        : voteContainOwner.isUpvote === 0
+        ? null
         : voteContainOwner.isUpvote >= 1;
       isFirstLoadComplete.value = true;
       watch(isUpvote, (_, prev) => {
         // if prev = null, It's mean user never vote before
         if (!$auth.user) return $toast.error('You need to login before vote');
         if (!isFirstLoadComplete.value) return;
-        if (prev === null) {
+        if (!voteContainOwner) {
           if (isUpvote.value === true) sendVote(true);
           else if (isUpvote.value === false) sendVote(false);
         } else {
@@ -214,7 +216,7 @@ export default defineComponent({
             reviewId: review.reviewId,
             userId: $auth.user!.userId as string,
           };
-          mutateVote(isUpvote, upVoteLength, downVoteLength, payload);
+          mutateVote(isUpvote, upVoteLength, downVoteLength, payload, prev!);
         }
       });
     });
@@ -225,6 +227,13 @@ export default defineComponent({
       review
     );
     const { removeReview } = deleteReview(review, emit);
+    const setIsUpVote = (upOrDown: boolean) => {
+      if (isUpvote.value === upOrDown) {
+        isUpvote.value = null;
+        return;
+      }
+      isUpvote.value = upOrDown;
+    };
     return {
       isEdit,
       edit,
@@ -235,6 +244,7 @@ export default defineComponent({
       downVoteLength,
       isUpvote,
       ratingScore,
+      setIsUpVote,
     };
   },
 });

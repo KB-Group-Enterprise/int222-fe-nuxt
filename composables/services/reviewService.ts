@@ -100,6 +100,7 @@ export function createReview(
     send({ reviewData });
     onDone((result) => {
       const comment = result.data.createReview as Review;
+      if (!comment.votes) comment.votes = [];
       comments.value.push(comment);
       $toast.success('Send Review success');
     });
