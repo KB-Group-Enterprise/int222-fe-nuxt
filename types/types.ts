@@ -670,7 +670,26 @@ export type GameWithReviewsQuery = { __typename?: 'Query', gameWithReviews: { __
 export type AllGamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, releaseDate: string, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> }> };
+export type AllGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, basePrice: number, releaseDate: string, rating?: number | null | undefined, publisher: { __typename?: 'Publisher', publisherId: number, publisherName: string }, categories: Array<{ __typename?: 'Category', categoryId: number, categoryName: string }>, retailers: Array<{ __typename?: 'Retailer', retailerId: number, retailerName: string }>, images: Array<{ __typename?: 'GameImage', name: string }> }> };
+
+export type GetGamePaginateQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  page: Scalars['Int'];
+  filterBy?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+  filter?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+  sortBy?: Maybe<Scalars['String']>;
+  order?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetGamePaginateQuery = { __typename?: 'Query', paginateGames: { __typename?: 'GamePaginationOutput', items: Array<{ __typename?: 'Game', gameId: number, gameName: string, description: string, rating?: number | null | undefined, basePrice: number, images: Array<{ __typename?: 'GameImage', name: string }> }>, meta: { __typename?: 'GamePaginaionMeta', itemCount: number, totalItems?: number | null | undefined, currentPage: number, totalPages?: number | null | undefined, itemsPerPage: number } } };
+
+export type SearchGamesQueryVariables = Exact<{
+  gameName: Scalars['String'];
+}>;
+
+
+export type SearchGamesQuery = { __typename?: 'Query', searchGames: Array<{ __typename?: 'Game', gameId: number, gameName: string, basePrice: number, description: string, releaseDate: string, rating?: number | null | undefined, images: Array<{ __typename?: 'GameImage', name: string }> }> };
 
 export type GetPublishersQueryVariables = Exact<{ [key: string]: never; }>;
 

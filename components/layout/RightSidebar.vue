@@ -32,7 +32,7 @@
           <h2 class="card-title">{{ game.gameName }}</h2>
           <div class="flex justify-between">
             <div>rating</div>
-            <div v-if="game.rating">{{ game.rating }}</div>
+            <div v-if="game.rating !== null">{{ game.rating }}</div>
             <div v-else>none</div>
           </div>
         </div>

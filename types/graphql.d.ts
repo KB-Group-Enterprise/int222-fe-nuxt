@@ -242,6 +242,24 @@ declare module '*/games.gql' {
 }
     
 
+declare module '*/gamesPaginate.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const getGamePaginate: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/gamesSearch.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const searchGames: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/publishers.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
