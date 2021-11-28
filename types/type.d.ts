@@ -9,3 +9,10 @@ export interface GameForm {
   categories: Category[];
   retailers: Retailer[];
 }
+
+export interface FilterOption {
+  sortBy: string;
+  order: string;
+  filterBy: string[];
+  filter: string[];
+}

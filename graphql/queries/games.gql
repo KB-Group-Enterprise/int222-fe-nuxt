@@ -5,9 +5,10 @@ query AllGames {
     description
     basePrice
     releaseDate
-    categories {
-      categoryId
-      categoryName
+    rating
+    publisher {
+      publisherId
+      publisherName
     }
     categories {
       categoryId

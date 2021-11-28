@@ -85,6 +85,21 @@ export type GameImage = {
   name: Scalars['String'];
 };
 
+export type GamePaginaionMeta = {
+  __typename?: 'GamePaginaionMeta';
+  currentPage: Scalars['Int'];
+  itemCount: Scalars['Int'];
+  itemsPerPage: Scalars['Int'];
+  totalItems?: Maybe<Scalars['Int']>;
+  totalPages?: Maybe<Scalars['Int']>;
+};
+
+export type GamePaginationOutput = {
+  __typename?: 'GamePaginationOutput';
+  items: Array<Game>;
+  meta: GamePaginaionMeta;
+};
+
 export type ImageOutPut = {
   __typename?: 'ImageOutPut';
   imageName: Scalars['String'];
@@ -301,6 +316,7 @@ export type Query = {
   game: Game;
   gameWithReviews: Game;
   games: Array<Game>;
+  paginateGames: GamePaginationOutput;
   publisher: Publisher;
   publishers: Array<Publisher>;
   questions: Array<RestoreQuestion>;
@@ -309,6 +325,7 @@ export type Query = {
   review: Review;
   reviewByGameId: Array<Review>;
   reviews: Array<Review>;
+  searchGames: Array<Game>;
   user: User;
   users: Array<User>;
   votes: Array<Vote>;
@@ -330,6 +347,16 @@ export type QueryGameWithReviewsArgs = {
 };
 
 
+export type QueryPaginateGamesArgs = {
+  filter?: Maybe<Array<Scalars['String']>>;
+  filterBy?: Maybe<Array<Scalars['String']>>;
+  limit: Scalars['Int'];
+  order?: Maybe<Scalars['String']>;
+  page: Scalars['Int'];
+  sortBy?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryPublisherArgs = {
   publisherId: Scalars['Int'];
 };
@@ -347,6 +374,11 @@ export type QueryReviewArgs = {
 
 export type QueryReviewByGameIdArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QuerySearchGamesArgs = {
+  gameName: Scalars['String'];
 };
 
 

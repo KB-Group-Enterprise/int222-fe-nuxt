@@ -1,0 +1,21 @@
+query getGamePaginate($limit: Int!, $page: Int!, $filterBy: [String!], $filter: [String!], $sortBy:String, $order:String) {
+    paginateGames(limit :$limit, page: $page, filterBy: $filterBy, filter: $filter, sortBy: $sortBy, order: $order) {
+        items {
+            gameId
+            gameName
+            description
+            rating
+            basePrice
+            images {
+                name
+            }
+  	    }
+        meta {
+            itemCount
+            totalItems
+            currentPage
+            totalPages
+            itemsPerPage
+        }
+    }
+}
