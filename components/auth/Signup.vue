@@ -13,7 +13,13 @@
     <div class="font-bold text-4xl text-center pb-5">REGISTER</div>
     <ValidationObserver v-slot="{ handleSubmit }" class="w-full">
       <form class="form-control w-full" @submit.prevent="handleSubmit(signup)">
-        <label class="label" for="username">Username</label>
+        <label class="label" for="username"
+          ><span
+            >Username
+            <Tooltip
+              :description="'Username จะต้องมีความยาวเกิน 4 ตัวอักษรขึ้นไป'"
+          /></span>
+        </label>
         <ValidationProvider
           v-slot="{ errors }"
           name="Username"
@@ -28,7 +34,13 @@
           <error-text :error="errorDetail"></error-text>
           <error-text :error="errors[0]"></error-text>
         </ValidationProvider>
-        <label class="label" for="password">Password</label>
+        <label class="label" for="password">
+          <span
+            >Password
+            <Tooltip
+              :description="'Password จะต้องมีความยาวเกิน 8 ตัวอักษรขึ้นไป'"
+          /></span>
+        </label>
         <ValidationProvider
           v-slot="{ errors }"
           name="Password"
@@ -43,7 +55,12 @@
           />
           <error-text :error="errors[0]"></error-text>
         </ValidationProvider>
-        <label class="label" for="confirmpassword">Confirm Password</label>
+        <label class="label" for="confirmpassword">
+          <span
+            >Confirm Password
+            <Tooltip :description="'Confirm Password จะต้องเหมือนกับ Password'"
+          /></span>
+        </label>
         <ValidationProvider
           v-slot="{ errors }"
           name="ConfirmPassword"
@@ -57,7 +74,12 @@
           />
           <error-text :error="errors[0]"></error-text>
         </ValidationProvider>
-        <label class="label" for="question">Question</label>
+        <label class="label" for="question">
+          <span
+            >Question
+            <Tooltip :description="'เลือก Question สำหรับใช้ในการกู้รหัสผ่าน'"
+          /></span>
+        </label>
         <div v-if="!loading && result">
           <ValidationProvider
             v-slot="{ errors }"
@@ -84,7 +106,12 @@
             <error-text :error="errors[0]"></error-text>
           </ValidationProvider>
         </div>
-        <label class="label" for="restoreanswer">Answer</label>
+        <label class="label" for="restoreanswer">
+          <span
+            >Question
+            <Tooltip :description="'ตอบ Answer สำหรับใช้ในการกู้รหัสผ่าน'"
+          /></span>
+        </label>
         <ValidationProvider v-slot="{ errors }" name="Answer" rules="required">
           <input
             id="answer"
