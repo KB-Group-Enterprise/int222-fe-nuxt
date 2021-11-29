@@ -236,10 +236,20 @@ export default defineComponent({
             images.value.push(file);
             isImageUpdate.value = true;
           } else {
-            alert('File Exceeded 5MB');
+            ctx.$swal({
+              icon: 'error',
+              text: 'File Exceeded 5MB',
+              timer: 1500,
+              timerProgressBar: true,
+            });
           }
         } else {
-          alert('Wrong File Type');
+          ctx.$swal({
+            icon: 'error',
+            text: 'Wrong File Type',
+            timer: 1500,
+            timerProgressBar: true,
+          });
         }
       }
     };

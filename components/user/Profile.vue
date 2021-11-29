@@ -44,7 +44,8 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, useContext } from '@nuxtjs/composition-api';
-
+import uploadProfileImageGQL from '@/graphql/mutations/uploadProfileImage.gql';
+import { useMutation } from '@vue/apollo-composable/dist';
 export default defineComponent({
   setup() {
     const ctx = useContext();
@@ -55,9 +56,52 @@ export default defineComponent({
       const uploadButton = document.getElementById('fileUpload');
       if (uploadButton) uploadButton.click();
     };
+    const {
+      mutate: uploadProfile,
+      onDone: onUploadProfileDone,
+      onError: onUploadError,
+    } = useMutation(uploadProfileImageGQL);
     const handleImageChange = (event: any) => {
-        console.log(event);
-    }
+      const file = event.target.files[0];
+      if (file) {
+        if (file.type === 'image/png' || file.type === 'image/jpeg') {
+          if (file.size <= 5 * 5000000) {
+            uploadProfile({ file });
+          } else {
+            ctx.$swal({
+              icon: 'error',
+              text: 'File Exceeded 5MB',
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          }
+        } else {
+          ctx.$swal({
+            icon: 'error',
+            text: 'Wrong File Type',
+            timer: 1500,
+            timerProgressBar: true,
+          });
+        }
+      }
+    };
+    onUploadProfileDone(() => {
+      ctx.$swal({
+        icon: 'success',
+        text: 'อัพเดทโปรไฟล์สำเร็จ',
+        timer: 1500,
+        timerProgressBar: true,
+      });
+      ctx.$auth.fetchUser();
+    });
+    onUploadError(() => {
+      ctx.$swal({
+        icon: 'error',
+        text: 'ไม่สามารถอัพโหลดไฟล์ได้',
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    });
     return {
       user,
       chooseFiles,
