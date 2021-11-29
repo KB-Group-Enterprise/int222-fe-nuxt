@@ -29,13 +29,13 @@
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
         :no-data="game.ratings === null ? true : false"
-        progress="50"
-        size="80"
+        :progress="game.rating"
+        :size="80"
         line-mode="out 3"
         color="#8B5CF6"
         empty-color="rgba(255,255,255,0.5)"
-        empty-thickness="3"
-        thickness="5"
+        :empty-thickness="3"
+        :thickness="5"
       >
         <span slot="legend-value"> </span>
       </vue-ellipse-progress>

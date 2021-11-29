@@ -1,26 +1,25 @@
 <template>
-  <div class="flex justify-center">
-    <div class="w-full px-2 sm:w-10/12">
-      <div class="tabs tabs-boxed mt-5">
-        <div
-          v-for="(tab, index) in tabs"
-          :key="index"
-          class="tab"
-          :currentIndex="selectedTabIndex"
-          :class="[selectedTabIndex === index ? 'tab-active' : '']"
-          @click="changeTab(index)"
-        >
-          {{ tab }}
-        </div>
+  <CommonContainer>
+    <CommonHeader class="mt-10" text="ATTRIBUTES MANAGER" />
+    <div class="tabs tabs-boxed mt-5">
+      <div
+        v-for="(tab, index) in tabs"
+        :key="index"
+        class="tab text-xl"
+        :currentIndex="selectedTabIndex"
+        :class="[selectedTabIndex === index ? 'tab-active' : '']"
+        @click="changeTab(index)"
+      >
+        {{ tab }}
       </div>
-      <AdminAttributesSelector
-        :list="selectedList"
-        @add="handleAdd"
-        @update="handleUpdate"
-        @delete="handleDelete"
-      ></AdminAttributesSelector>
     </div>
-  </div>
+    <AdminAttributesSelector
+      :list="selectedList"
+      @add="handleAdd"
+      @update="handleUpdate"
+      @delete="handleDelete"
+    ></AdminAttributesSelector>
+  </CommonContainer>
 </template>
 
 <script lang="ts">
@@ -327,7 +326,7 @@ export default defineComponent({
         timer: 1500,
         timerProgressBar: true,
       });
-    })
+    });
     return {
       selectedTabIndex,
       tabs,

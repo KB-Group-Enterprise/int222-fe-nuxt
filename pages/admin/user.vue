@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <h1>user page</h1>
-    <AdminUser v-for="user in users" :key="user.userId" :user="user">
-    </AdminUser>
-  </div>
+  <CommonContainer>
+    <div class="my-10">
+      <h1 class="text-3xl">ROLES MANAGER</h1>
+      <AdminUser v-for="user in users" :key="user.userId" :user="user">
+      </AdminUser>
+    </div>
+  </CommonContainer>
 </template>
 
 <script lang="ts">

@@ -1,11 +1,12 @@
 <template>
-  <div class="w-1/2 bg-gray-500 my-5 py-3">
+  <div class="border border-gray-500 rounded-xl my-5 p-5">
     <form>
       <div>UserId: {{ user.userId }}</div>
       <div>Username: {{ user.username }}</div>
       <div>
-        <label for="role">Role:</label>
-        <select id="role" v-model="selectedRole" name="role" class="select">
+        <hr class="my-4 text-gray-500" />
+        <label for="role" class="text-xl">CURRENT ROLE | </label>
+        <select id="role" v-model="selectedRole" name="role" class="select bg-gray-800">
           <option value="admin">Admin</option>
           <option value="reviewer">Reviewer</option>
         </select>
