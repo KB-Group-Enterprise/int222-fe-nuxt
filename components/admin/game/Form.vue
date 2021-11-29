@@ -1,7 +1,10 @@
 <template>
   <common-container>
-    <div class="w-full flex flex-col mt-20">
-      <h1>Add Game</h1>
+    <div class="w-full flex flex-col my-20">
+      <div>
+        <h1 class="text-3xl">{{ game ? 'UPDATE GAME' : 'ADD GAME' }}</h1>
+      </div>
+      <h1>Upload Images</h1>
       <div>
         <AdminGamePreview
           :previews="previews"
@@ -47,7 +50,7 @@
             </label>
             <select
               v-model="form.publisher"
-              class="select select-bordered w-full max-w-xs"
+              class="select select-bordered w-full"
             >
               <option value="">Please Select One</option>
               <option
@@ -62,6 +65,24 @@
               กรุณาเลือก Publisher
             </p>
           </div>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="description"
+            rules="required"
+            class="col-span-2"
+          >
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Game Description</span>
+              </label>
+              <textarea
+                class="textarea h-24 border-gray-500"
+                name="description"
+                placeholder="a brief description of a game"
+              ></textarea>
+              <p v-if="errors[0]" class="text-red-600">{{ errors[0] }}</p>
+            </div>
+          </ValidationProvider>
           <div class="form-control">
             <label class="label">
               <span class="label-text">Categories</span>
@@ -118,7 +139,15 @@
               />
             </label>
           </div>
-          <button class="btn btn-primary">SAVE</button>
+          <div class="col-span-2">
+            <button class="btn btn-primary w-28">SAVE</button>
+            <button
+              class="btn btn-secondar w-28"
+              @click.prevent="$router.push('/')"
+            >
+              CANCEL
+            </button>
+          </div>
         </form>
       </ValidationObserver>
     </div>
@@ -258,13 +287,6 @@ export default defineComponent({
         rules: 'required',
         placeholder: 'Game Name',
         model: 'gameName',
-      },
-      {
-        name: 'Description',
-        type: 'textarea',
-        rules: 'required',
-        placeholder: 'a brief description of this game',
-        model: 'description',
       },
       {
         name: 'Price',
