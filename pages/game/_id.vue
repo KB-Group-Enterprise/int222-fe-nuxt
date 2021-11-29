@@ -42,7 +42,7 @@
     </div>
     <h1>Game Name: {{ game.gameName }}</h1>
     <ValidationObserver
-      v-if="$auth.user"
+      v-if="$auth.user && !userReviewExist"
       v-slot="{ handleSubmit }"
       class="mt-10"
     >
@@ -87,7 +87,13 @@
       </form>
     </ValidationObserver>
     <div v-else class="flex flex-col mt-20">
-      <p>You need to login before comment</p>
+      <p class="text-center">
+        {{
+          userReviewExist
+            ? 'You already reviewed this game.'
+            : 'You need to login before comment.'
+        }}
+      </p>
     </div>
     <div class="flex flex-col px-3 w-full items-center">
       <GameComment
@@ -103,6 +109,7 @@
 
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   onBeforeMount,
   onMounted,
@@ -141,6 +148,15 @@ export default defineComponent({
         1
       );
     }
+    const ctx = useContext();
+    const userReviewExist = computed(() => {
+      const user = ctx.$auth.user;
+      if (!user) return false;
+      return (
+        comments.value.filter((item) => item.reviewer.userId === user.userId)
+          .length > 0
+      );
+    });
     function setScore(rating: number) {
       reviewData.rating = rating;
     }
@@ -153,6 +169,7 @@ export default defineComponent({
       deleteReview,
       fadeStyle,
       setScore,
+      userReviewExist,
     };
   },
 });
