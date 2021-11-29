@@ -90,7 +90,7 @@
           <select
             v-model="filterOption.order"
             class="select select-bordered w-full max-w-xs"
-            :disabled="filterOption.sortBy"
+            :disabled="filterOption.sortBy === ''"
           >
             <option value="ASC">Least</option>
             <option value="DESC">Most</option>
@@ -139,7 +139,7 @@ export default defineComponent({
       { name: 'Price', slug: 'base_price' },
       { name: 'Name', slug: 'game_name' },
       { name: 'Release Date', slug: 'release_date' },
-      { name: 'rating', slug: 'rating' },
+      { name: 'Rating', slug: 'rating' },
     ];
     const { onResult: onAttributesResult, refetch: refetchAttribute } =
       useQuery(GameAttributesQuery);
@@ -157,6 +157,10 @@ export default defineComponent({
     onBeforeMount(() => {
       Object.assign(props.defaultFilter, filterOption);
     });
+    // const test = ref('ASC');
+    // watch(test, () => {
+    //   console.log(test);
+    // });
     watch(
       () => filterOption.sortBy,
       (newVal: string) => {

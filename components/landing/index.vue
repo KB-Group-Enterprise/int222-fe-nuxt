@@ -136,7 +136,7 @@ export default defineComponent({
       }
     });
     const handleFilterUpdate = (filterOption: FilterOption) => {
-      Object.assign(filterOption, gameFilter);
+      Object.assign(gameFilter, filterOption);
       gameRefetch({ limit: limit.value, page: page.value, ...gameFilter });
     };
     const handlePageChange = (newPage: number) => {

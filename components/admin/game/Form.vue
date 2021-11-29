@@ -76,6 +76,7 @@
                 <span class="label-text">Game Description</span>
               </label>
               <textarea
+                v-model="form.description"
                 class="textarea h-24 border-gray-500"
                 name="description"
                 placeholder="a brief description of a game"
@@ -289,7 +290,7 @@ export default defineComponent({
         model: 'gameName',
       },
       {
-        name: 'Price',
+        name: 'Price (THB)',
         type: 'number',
         rules: 'required',
         placeholder: 'Game Price',
