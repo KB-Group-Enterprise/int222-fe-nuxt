@@ -23,6 +23,22 @@
         "
       />
     </figure>
+    <div class="absolute right-2 top-2">
+      <vue-ellipse-progress
+      v-if="game.rating" 
+        :no-data="game.ratings === null ? true : false"
+        :progress="game.rating"
+        :size="60"
+        line-mode="out 3"
+        color="#FFF"
+        empty-color="rgba(255,255,255,0.5)"
+        :empty-thickness="3"
+        :thickness="5"
+      >
+        <span slot="legend-value"> </span>
+      </vue-ellipse-progress>
+      <div v-else class="bg-gray-400 opacity-75 rounded-full p-2">No Rating</div>
+    </div>
     <div
       class="h-full w-full absolute transition-all opacity-0 hover:opacity-100"
     >
