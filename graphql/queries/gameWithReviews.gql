@@ -9,7 +9,12 @@ query GameWithReviews($gameId: Int!) {
       publisherName
     }
     categories {
+      categoryId
       categoryName
+    }
+    retailers {
+      retailerId
+      retailerName
     }
     images {
       name

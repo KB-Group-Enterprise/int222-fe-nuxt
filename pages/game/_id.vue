@@ -18,13 +18,12 @@
         px-4
         py-2
         pl-12
-        border-2 border-white
         bg-opacity-20
         backdrop-filter backdrop-blur-lg
         rounded-lg
       "
     >
-      <div class="font-bold text-7xl">{{ game.gameName }}</div>
+      <div class="text-7xl">{{ game.gameName }}</div>
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
@@ -40,70 +39,98 @@
         <span slot="legend-value"> </span>
       </vue-ellipse-progress>
     </div>
-    <h1>Game Name: {{ game.gameName }}</h1>
-    <ValidationObserver
-      v-if="$auth.user && !userReviewExist"
-      v-slot="{ handleSubmit }"
-      class="mt-10"
-    >
-      <form
-        class="
-          mx-3
-          flex flex-col
-          mt-32
-          mb-10
-          md:flex-row md:mt-10
-          justify-between
-          xl:justify-around
-        "
-        @submit.prevent="handleSubmit(sendReview)"
+    <CommonContainer>
+      <div class="mt-20">
+        <h4 class="text-xl my-2">DESCRIPTION</h4>
+        <p class="w-3/4">{{ game.description }}</p>
+      </div>
+      <h4 class="text-xl my-2">CATEGORIES</h4>
+      <div class="flex">
+        <div
+          v-for="category in game.categories"
+          :key="category.categoryId"
+          class="bg-primary rounded-lg mr-1 p-1 px-4"
+        >
+          {{ category.categoryName }}
+        </div>
+      </div>
+      <h4 class="text-xl my-2">AVAILABLE AT</h4>
+      <div class="flex">
+        <div
+          v-for="retailer in game.retailers"
+          :key="retailer.retailerId"
+          class="bg-accent rounded-lg mr-1 p-1 px-4"
+        >
+          {{ retailer.retailerName }}
+        </div>
+      </div>
+      <hr class="my-4" />
+      <ValidationObserver
+        v-if="$auth.user && !userReviewExist"
+        v-slot="{ handleSubmit }"
+        class=""
       >
-        <label class="label" for="ratings">Ratings</label>
-        <GameRatingStar @set-score="setScore" />
-        <!-- <input
+        <form
+          class="
+            mx-3
+            flex flex-col
+            md:flex-row md:mt-10
+            justify-between
+            xl:justify-around
+          "
+          @submit.prevent="handleSubmit(sendReview)"
+        >
+          <label class="label" for="ratings">Ratings</label>
+          <GameRatingStar @set-score="setScore" />
+          <!-- <input
           id="ratings"
           v-model="reviewData.rating"
           class="input input-bordered"
           type="number"
         /><br /> -->
-        <label class="label" for="comment">Comment</label>
-        <ValidationProvider v-slot="{ errors }" name="Comment" rules="required">
-          <input
-            id="comment"
-            v-model="reviewData.comment"
-            class="input input-bordered w-full xl:w-72"
-            type="text"
-          /><br />
-          <error-text :error="errors[0]"></error-text>
-        </ValidationProvider>
-        <br />
-        <button
-          type="submit"
-          class="btn btn-primary text-xs md:text-base"
-          :class="[isCreating ? 'loading' : '']"
-        >
-          {{ isCreating ? 'Loading' : 'Send Review' }}
-        </button>
-      </form>
-    </ValidationObserver>
-    <div v-else class="flex flex-col mt-20">
-      <p class="text-center">
-        {{
-          userReviewExist
-            ? 'You already reviewed this game.'
-            : 'You need to login before comment.'
-        }}
-      </p>
-    </div>
-    <div class="flex flex-col px-3 w-full items-center">
-      <GameComment
-        v-for="comment in comments"
-        :key="comment.reviewId"
-        :review="comment"
-        :game-id="game.gameId"
-        @delete-review="deleteReview"
-      ></GameComment>
-    </div>
+          <label class="label" for="comment">Comment</label>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Comment"
+            rules="required"
+          >
+            <input
+              id="comment"
+              v-model="reviewData.comment"
+              class="input input-bordered w-full xl:w-72"
+              type="text"
+            /><br />
+            <error-text :error="errors[0]"></error-text>
+          </ValidationProvider>
+          <br />
+          <button
+            type="submit"
+            class="btn btn-primary text-xs md:text-base"
+            :class="[isCreating ? 'loading' : '']"
+          >
+            {{ isCreating ? 'Loading' : 'Send Review' }}
+          </button>
+        </form>
+      </ValidationObserver>
+      <div v-else class="flex flex-col">
+        <p class="text-center">
+          {{
+            userReviewExist
+              ? 'You already reviewed this game.'
+              : 'You need to login before comment.'
+          }}
+        </p>
+      </div>
+      <div class="flex flex-col px-3 w-full items-center">
+        <GameComment
+          v-for="comment in comments"
+          :key="comment.reviewId"
+          :review="comment"
+          :game-id="game.gameId"
+          @delete-review="deleteReview"
+        ></GameComment>
+      </div>
+    </CommonContainer>
   </div>
 </template>
 
