@@ -41,6 +41,9 @@ export function updateRole(selectedRole: Ref<string>, userId: string) {
       $toast.success('Update Role Completed');
   });
   onError((error) => {
-    if (error) $toast.error(error.message);
+    if (error) {
+      selectedRole.value = 'admin';
+      $toast.error(error.message);
+    }
   });
 }

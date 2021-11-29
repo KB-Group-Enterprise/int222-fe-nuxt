@@ -44,12 +44,11 @@ export function handleVote(
     onDone((result) => {
       const vote = result.data.createVote as Vote;
       if (isUpVote) upVoteLength.value += 1;
-      else downVoteLength.value -= 1;
+      else downVoteLength.value += 1;
       votes.push(vote);
       $toast.success('Vote success');
     });
-    onError((error) => {
-      console.log(error);
+    onError(() => {
       $toast.error('Vote failed');
     });
   };
