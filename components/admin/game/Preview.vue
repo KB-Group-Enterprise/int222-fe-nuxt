@@ -1,5 +1,14 @@
 <template lang="html">
-  <div class="flex flex-wrap w-full border border-gray-200 p-1 lg:p-3 lg:my-2">
+  <div
+    class="
+      grid grid-cols-5
+      gap-4
+      w-full
+      border border-gray-500
+      p-1
+      lg:p-3 lg:my-2
+    "
+  >
     <div
       v-for="preview in previews"
       :key="preview"
@@ -14,8 +23,19 @@
       </button>
     </div>
     <button
+      class="
+        w-full
+        m-2
+        p-3
+        add-button
+        bg-gray-500
+        text-white
+        transition-all
+        hover:bg-gray-400
+        text-6xl
+        font-bold
+      "
       @click="chooseFiles()"
-      class="w-full m-2 p-3 md:w-4/12 lg:w-60 h-48 bg-white border border-gray-200 transition-all hover:text-white hover:bg-gray-200 text-6xl font-bold"
     >
       +
     </button>
@@ -68,7 +88,11 @@ export default {
   animation: fadeOut 1s forwards ease-in-out;
 }
 img {
-  width: 200px;
-  height: 150px;
+  width: auto;
+  height: 350px;
+}
+.add-button {
+  width: 100%;
+  height: 350px;
 }
 </style>
