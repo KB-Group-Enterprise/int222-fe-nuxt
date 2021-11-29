@@ -1,87 +1,102 @@
 <template>
   <div class="mt-10">
     <div :key="updateKey">
-      <h4>Category</h4>
-      <div class="tabs tabs-boxed">
-        <div
-          v-for="category in categories"
-          :key="category.categoryId"
-          class="tab"
-          :class="[
-            filterOption.filterBy.includes(FILTER_SLUG.CATEGORY) &&
-            filterOption.filter[
-              filterOption.filterBy.indexOf(FILTER_SLUG.CATEGORY)
-            ] === category.categoryId.toString()
-              ? 'tab-active'
-              : '',
-          ]"
-          @click.prevent="
-            handleFilter(FILTER_SLUG.CATEGORY, category.categoryId)
-          "
-        >
-          {{ category.categoryName }}
+      <div class="grid grid-cols-8 gap-2">
+        <div class="col-span-1 flex items-center">
+          <h4>CATEGORY</h4>
+        </div>
+        <div class="tabs tabs-boxed col-span-7">
+          <div
+            v-for="category in categories"
+            :key="category.categoryId"
+            class="tab"
+            :class="[
+              filterOption.filterBy.includes(FILTER_SLUG.CATEGORY) &&
+              filterOption.filter[
+                filterOption.filterBy.indexOf(FILTER_SLUG.CATEGORY)
+              ] === category.categoryId.toString()
+                ? 'tab-active'
+                : '',
+            ]"
+            @click.prevent="
+              handleFilter(FILTER_SLUG.CATEGORY, category.categoryId)
+            "
+          >
+            {{ category.categoryName }}
+          </div>
+        </div>
+        <div class="col-span-1 flex items-center">
+          <h4>RETAILER</h4>
+        </div>
+        <div class="tabs tabs-boxed col-span-7">
+          <div
+            v-for="retailer in retailers"
+            :key="retailer.retailerId"
+            class="tab"
+            :class="[
+              filterOption.filterBy.includes(FILTER_SLUG.RETAILER) &&
+              filterOption.filter[
+                filterOption.filterBy.indexOf(FILTER_SLUG.RETAILER)
+              ] === retailer.retailerId.toString()
+                ? 'tab-active'
+                : '',
+            ]"
+            @click.prevent="
+              handleFilter(FILTER_SLUG.RETAILER, retailer.retailerId)
+            "
+          >
+            {{ retailer.retailerName }}
+          </div>
+        </div>
+        <div class="col-span-1 flex items-center">
+          <h4>PUBLISHER</h4>
+        </div>
+        <div class="tabs tabs-boxed col-span-7">
+          <div
+            v-for="publisher in publishers"
+            :key="publisher.publisherId"
+            class="tab"
+            :class="[
+              filterOption.filterBy.includes(FILTER_SLUG.PUBLISHER) &&
+              filterOption.filter[
+                filterOption.filterBy.indexOf(FILTER_SLUG.PUBLISHER)
+              ] === publisher.publisherId.toString()
+                ? 'tab-active'
+                : '',
+            ]"
+            @click.prevent="
+              handleFilter(FILTER_SLUG.PUBLISHER, publisher.publisherId)
+            "
+          >
+            {{ publisher.publisherName }}
+          </div>
+        </div>
+        <div class="col-span-1 flex items-center">
+          <h4>SORT BY</h4>
+        </div>
+        <div class="grid grid-cols-2 gap-1 col-span-4">
+          <select
+            v-model="filterOption.sortBy"
+            class="select select-bordered w-full max-w-xs"
+          >
+            <option
+              v-for="item in sortByList"
+              :key="item.slug"
+              :value="item.slug"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <select
+            v-model="filterOption.order"
+            class="select select-bordered w-full max-w-xs"
+            :disabled="filterOption.sortBy"
+          >
+            <option value="ASC">Least</option>
+            <option value="DESC">Most</option>
+          </select>
         </div>
       </div>
-      <h4>Retailer</h4>
-      <div class="tabs tabs-boxed">
-        <div
-          v-for="retailer in retailers"
-          :key="retailer.retailerId"
-          class="tab"
-          :class="[
-            filterOption.filterBy.includes(FILTER_SLUG.RETAILER) &&
-            filterOption.filter[
-              filterOption.filterBy.indexOf(FILTER_SLUG.RETAILER)
-            ] === retailer.retailerId.toString()
-              ? 'tab-active'
-              : '',
-          ]"
-          @click.prevent="
-            handleFilter(FILTER_SLUG.RETAILER, retailer.retailerId)
-          "
-        >
-          {{ retailer.retailerName }}
-        </div>
-      </div>
-      <h4>Publisher</h4>
-      <div class="tabs tabs-boxed">
-        <div
-          v-for="publisher in publishers"
-          :key="publisher.publisherId"
-          class="tab"
-          :class="[
-            filterOption.filterBy.includes(FILTER_SLUG.PUBLISHER) &&
-            filterOption.filter[
-              filterOption.filterBy.indexOf(FILTER_SLUG.PUBLISHER)
-            ] === publisher.publisherId.toString()
-              ? 'tab-active'
-              : '',
-          ]"
-          @click.prevent="
-            handleFilter(FILTER_SLUG.PUBLISHER, publisher.publisherId)
-          "
-        >
-          {{ publisher.publisherName }}
-        </div>
-      </div>
-    </div>
-    <h4>Sort By</h4>
-    <div class="grid grid-cols-2 gap-4">
-      <select
-        v-model="filterOption.sortBy"
-        class="select select-bordered w-full max-w-xs"
-      >
-        <option v-for="item in sortByList" :key="item.slug" :value="item.slug">
-          {{ item.name }}
-        </option>
-      </select>
-      <select
-        v-model="filterOption.order"
-        class="select select-bordered w-full max-w-xs"
-      >
-        <option value="ASC">Least</option>
-        <option value="DESC">Most</option>
-      </select>
     </div>
   </div>
 </template>
@@ -144,13 +159,13 @@ export default defineComponent({
     });
     watch(
       () => filterOption.sortBy,
-      () => {
+      (newVal: string) => {
         emit('update', filterOption);
       }
     );
     watch(
       () => filterOption.order,
-      () => {
+      (newVal: string) => {
         emit('update', filterOption);
       }
     );
