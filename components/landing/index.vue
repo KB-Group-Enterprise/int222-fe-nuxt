@@ -4,64 +4,14 @@
       :default-filter="gameFilter"
       @update="handleFilterUpdate"
     ></LandingGameFilter>
-    <div class="w-full grid grid-cols-3 gap-4 mt-20">
-      <div
-        v-for="game in games"
-        :key="game.gameId"
-        class="
-          card
-          shadow-xl
-          image-full
-          cursor-pointer
-          transition
-          hover:scale-105
-          ease-in-out
-          duration-200
-        "
-        @click="goGamePage(game.gameId)"
-      >
-        <figure>
-          <img
-            :src="
-              game.images[0]
-                ? $axios.defaults.baseURL +
-                  '/images/games/' +
-                  game.images[0].name
-                : 'https://cdn.shopify.com/s/files/1/0630/8509/products/pst0584gtav_large.jpg?v=1540231536'
-            "
-          />
-        </figure>
-        <div class="justify-end card-body">
-          <h2 class="card-title">{{ game.gameName }}</h2>
-          <p>
-            {{ game.description }}
-          </p>
-          <div v-if="$auth.user" class="card-actions">
-            <button
-              v-if="$auth.user.role.roleName === 'admin'"
-              class="btn btn-success"
-              @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
-            >
-              Edit
-            </button>
-            <button
-              v-if="$auth.user.role.roleName === 'admin'"
-              class="btn btn-error"
-              @click.stop="deleteGamePrompt({ gameId: game.gameId })"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="flex justify-centerp p-5">
       <div
         v-if="isAdmin"
         class="
           w-full
-          h-full
+          h-24
           bg-gray-800
           text-white
-          rounded-xl
           flex flex-col
           items-center
           justify-center
@@ -69,11 +19,23 @@
           cursor-pointer
           hover:bg-gray-600
           transition-colors
+          col-span-4
+          rounded-lg
         "
         @click="$router.push('/admin/game/add')"
       >
         <div class="font-bold">ADD GAME</div>
       </div>
+    </div>
+    <div class="w-full grid grid-cols-3 gap-4 mt-2">
+      <LandingGameCard
+        v-for="game in games"
+        :key="game.gameId"
+        :game="game"
+        @click="goGamePage(game.gameId)"
+        @delete="deleteGamePrompt"
+      >
+      </LandingGameCard>
     </div>
     <div v-if="meta" class="flex justify-center my-10">
       <CommonPagination
@@ -133,13 +95,14 @@ export default defineComponent({
     });
     const deleteGamePrompt = async (deleteGameArgs: { gameId: number }) => {
       const result = await ctx.$swal({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'ลบเกม',
+        text: 'คุณแน่ใจแล้วหรือไม่',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
       });
       if (result.isConfirmed) deleteGame(deleteGameArgs);
     };
