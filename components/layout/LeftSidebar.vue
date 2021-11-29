@@ -11,14 +11,20 @@
         <div
           v-for="item in items"
           :key="item.name"
-          class="flex rounded-lg p-2 mx-2 cursor-pointer"
-          :class="selectedItem === item.name ? 'bg-gray-800' : ''"
-          @click="selectItem(item.name)"
+          class="flex rounded-lg p-2 mx-2 cursor-pointer transition-all"
+          :class="[
+            item.path === $route.path ? 'bg-gray-800' : '',
+            $auth.loggedIn || !item.loggedIn ? '' : 'hidden',
+            true || item.role === '' || item.role === currentRole
+              ? ''
+              : 'hidden',
+          ]"
+          @click="$router.push(item.path)"
         >
           <div
-            class="btn btn-circle border-none"
+            class="btn btn-circle border-none transition-colors"
             :class="
-              selectedItem === item.name
+              $route.path === item.path
                 ? 'bg-gradient-to-r from-blue-500 to-indigo-600'
                 : ''
             "
@@ -55,23 +61,46 @@
 </template>
 
 <script>
-import { defineComponent, ref, useContext } from '@nuxtjs/composition-api';
+import { computed, defineComponent, ref, useContext } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   setup() {
     const items = [
-      { name: 'Home', icon: 'home', path: '' },
-      { name: 'Prakit', icon: 'home', path: '' },
-      { name: 'Ruangrit', icon: 'home', path: '' },
-      { name: 'Sapondanai', icon: 'home', path: '' },
+      { name: 'Home', icon: 'home', path: '/', role: '', loggedIn: false },
+      {
+        name: 'Profile',
+        icon: 'user-circle',
+        path: '/user/profile',
+        role: '',
+        loggedIn: true,
+      },
+      {
+        name: 'Attribute',
+        icon: 'list',
+        path: '/admin/attributes',
+        role: 'admin',
+        loggedIn: true,
+      },
+      {
+        name: 'Role Manager',
+        icon: 'user-tag',
+        path: '/admin/user',
+        role: 'admin',
+        loggedIn: true,
+      },
+      {
+        name: 'Contributors',
+        icon: 'users',
+        path: '/contributors',
+        role: '',
+        loggedIn: false,
+      },
     ];
-    const selectedItem = ref('Home');
-
-    const selectItem = (item) => {
-      selectedItem.value = item;
-    };
-
-    return { items, selectItem, selectedItem };
+    const ctx = useContext();
+    const currentRole = computed(() => {
+      return ctx.$auth.user.role.roleName && '';
+    });
+    return { items, currentRole };
   },
 });
 </script>
