@@ -27,6 +27,7 @@
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
+        v-if="game.rating !== null"
         :no-data="game.ratings === null ? true : false"
         :progress="game.rating"
         :size="80"
@@ -38,57 +39,75 @@
       >
         <span slot="legend-value"> </span>
       </vue-ellipse-progress>
+      <div v-else>
+        <div class="bg-gray-400 opacity-75 p-2 rounded-xl">No Rating</div>
+      </div>
     </div>
     <CommonContainer>
-      <div class="mt-20">
+      <div class="mt-20 bg-gray-800 rounded-xl p-4">
         <h4 class="text-xl my-2">DESCRIPTION</h4>
+        <hr class="mb-3" />
         <p class="w-3/4">{{ game.description }}</p>
       </div>
-      <h4 class="text-xl my-2">CATEGORIES</h4>
-      <div class="flex">
+      <h4 class="text-xl my-2 mt-4 text-center">CATEGORIES</h4>
+      <div class="flex justify-center">
         <div
           v-for="category in game.categories"
           :key="category.categoryId"
-          class="bg-primary rounded-lg mr-1 p-1 px-4"
+          class="
+            rounded-lg
+            mr-1
+            p-1
+            px-4
+            py-4
+            border border-gray-500
+            rounded-xl
+            text-center
+            w-36
+          "
         >
           {{ category.categoryName }}
         </div>
       </div>
-      <h4 class="text-xl my-2">AVAILABLE AT</h4>
-      <div class="flex">
+      <h4 class="text-xl my-2 mt-4 text-center">AVAILABLE AT</h4>
+      <div class="flex justify-center">
         <div
           v-for="retailer in game.retailers"
           :key="retailer.retailerId"
-          class="bg-accent rounded-lg mr-1 p-1 px-4"
+          class="
+            rounded-lg
+            mr-1
+            p-1
+            px-4
+            py-4
+            border border-gray-500
+            rounded-xl
+            text-center
+            w-36
+          "
         >
           {{ retailer.retailerName }}
         </div>
       </div>
+      <h4 class="text-xl my-2 mt-6 text-center">PUBLISHED BY</h4>
+      <div class="text-center text-6xl">{{ game.publisher.publisherName }}</div>
       <hr class="my-4" />
       <ValidationObserver
         v-if="$auth.user && !userReviewExist"
         v-slot="{ handleSubmit }"
-        class=""
       >
         <form
-          class="
-            mx-3
-            flex flex-col
-            md:flex-row md:mt-10
-            justify-between
-            xl:justify-around
-          "
+          class="flex flex-col border border-gray-500 p-5 rounded-xl"
           @submit.prevent="handleSubmit(sendReview)"
         >
-          <label class="label" for="ratings">Ratings</label>
-          <GameRatingStar @set-score="setScore" />
+          <h1>REVIEW THIS GAME</h1>
+          <GameRatingStar class="-translate-x-4" @set-score="setScore" />
           <!-- <input
           id="ratings"
           v-model="reviewData.rating"
           class="input input-bordered"
           type="number"
         /><br /> -->
-          <label class="label" for="comment">Comment</label>
           <ValidationProvider
             v-slot="{ errors }"
             name="Comment"
@@ -97,7 +116,8 @@
             <input
               id="comment"
               v-model="reviewData.comment"
-              class="input input-bordered w-full xl:w-72"
+              placeholder="Comment"
+              class="textarea h-24 w-full border border-gray-500 mt-4"
               type="text"
             /><br />
             <error-text :error="errors[0]"></error-text>
