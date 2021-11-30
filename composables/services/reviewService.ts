@@ -99,10 +99,20 @@ export function createReview(
     reviewData.userId = user.userId;
     send({ reviewData });
     onDone((result) => {
+      $toast.clear();
       const comment = result.data.createReview as Review;
       if (!comment.votes) comment.votes = [];
-      comments.value.push(comment);
-      $toast.success('Send Review success');
+      const isCommentInArr = comments.value.findIndex(
+        (review) => review.reviewId === comment.reviewId
+      );
+      if (isCommentInArr === -1) {
+        comments.value.push(comment);
+        reviewData.comment = '';
+        reviewData.rating = 0;
+        reviewData.gameId = -1;
+        reviewData.userId = '';
+        $toast.success('Send Review success');
+      }
     });
     onError(() => {
       $toast.error('Send Review failed');
