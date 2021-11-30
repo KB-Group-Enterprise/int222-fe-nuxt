@@ -12,6 +12,7 @@
 import { defineComponent, onBeforeMount, ref } from '@nuxtjs/composition-api';
 import { fetchUsers } from '@/composables/services/adminService';
 export default defineComponent({
+  middleware: ['auth', 'is-admin'],
   setup() {
     const { users, fetchAllUsers } = fetchUsers();
     onBeforeMount(() => {

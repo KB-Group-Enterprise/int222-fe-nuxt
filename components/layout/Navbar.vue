@@ -1,0 +1,47 @@
+<template>
+  <nav
+    class="
+      lg:hidden
+      flex
+      justify-between
+      items-center
+      bg-gray-800
+      p-2
+      w-full
+      sticky
+      top-0
+      z-50
+    "
+  >
+    <div class="flex items-center text-white" @click="$router.push('/')">
+      <span
+        class="
+          font-semibold
+          text-sm
+          tracking-tight
+          border border-0 border-b-2 border-t-2
+          rounded
+        "
+        >GAME LEVIEW</span
+      >
+    </div>
+    <div
+      class="
+        text-sm
+        px-4
+        py-2
+        leading-none
+        border
+        rounded
+        text-white
+        border-white
+        lg:mt-0
+        cursor-pointer
+        select-none
+      "
+      @click="$store.commit('layouts/toggleSidebar')"
+    >
+      <font-awesome-icon icon="bars" />
+    </div>
+  </nav>
+</template>

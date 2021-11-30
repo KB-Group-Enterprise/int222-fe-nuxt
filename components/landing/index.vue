@@ -27,7 +27,9 @@
         <div class="font-bold">ADD GAME</div>
       </div>
     </div>
-    <div class="w-full grid grid-cols-3 gap-4 mt-2">
+    <div
+      class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2"
+    >
       <LandingGameCard
         v-for="game in games"
         :key="game.gameId"
@@ -67,7 +69,7 @@ export default defineComponent({
   setup() {
     const ctx = useContext();
     const page = ref(1);
-    const limit = ref(10);
+    const limit = ref(9);
     const games = ref<Game[]>();
     const gameFilter = reactive<FilterOption>({
       sortBy: '',

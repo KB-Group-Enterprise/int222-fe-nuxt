@@ -2,10 +2,10 @@
   <div class="mt-10">
     <div :key="updateKey">
       <div class="grid grid-cols-8 gap-2">
-        <div class="col-span-1 flex items-center">
+        <div class="col-span-8 md:col-span-2 lg:col-span-1 flex items-center">
           <h4>CATEGORY</h4>
         </div>
-        <div class="tabs tabs-boxed col-span-7">
+        <div class="tabs tabs-boxed col-span-8 md:col-span-6 lg:col-span-7">
           <div
             v-for="category in categories"
             :key="category.categoryId"
@@ -25,10 +25,10 @@
             {{ category.categoryName }}
           </div>
         </div>
-        <div class="col-span-1 flex items-center">
+        <div class="col-span-8 md:col-span-2 lg:col-span-1 flex items-center">
           <h4>RETAILER</h4>
         </div>
-        <div class="tabs tabs-boxed col-span-7">
+        <div class="tabs tabs-boxed col-span-8 md:col-span-6 lg:col-span-7">
           <div
             v-for="retailer in retailers"
             :key="retailer.retailerId"
@@ -48,10 +48,10 @@
             {{ retailer.retailerName }}
           </div>
         </div>
-        <div class="col-span-1 flex items-center">
+        <div class="ccol-span-8 md:col-span-2 lg:col-span-1 flex items-center">
           <h4>PUBLISHER</h4>
         </div>
-        <div class="tabs tabs-boxed col-span-7">
+        <div class="tabs tabs-boxed col-span-8 md:col-span-6 lg:col-span-7">
           <div
             v-for="publisher in publishers"
             :key="publisher.publisherId"
@@ -71,10 +71,10 @@
             {{ publisher.publisherName }}
           </div>
         </div>
-        <div class="col-span-1 flex items-center">
+        <div class="col-span-8 md:col-span-1 flex items-center">
           <h4>SORT BY</h4>
         </div>
-        <div class="grid grid-cols-2 gap-1 col-span-4">
+        <div class="grid grid-cols-2 gap-1 col-span-8 md:col-span-4">
           <select
             v-model="filterOption.sortBy"
             class="select select-bordered w-full max-w-xs"

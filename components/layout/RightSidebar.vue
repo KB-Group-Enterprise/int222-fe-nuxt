@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 w-full">
+  <div class="p-5 w-full h-screen">
     <LayoutPopularGame></LayoutPopularGame>
     <div class="form-control">
       <div class="relative">
@@ -19,7 +19,7 @@
         />
       </div>
     </div>
-    <div>
+    <div class="overflow-y-scroll">
       <div
         class="card lg:card-side bordered my-2"
         v-for="game in games"

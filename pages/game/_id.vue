@@ -44,7 +44,22 @@
       </div>
     </div>
     <CommonContainer>
-      <div class="mt-20 bg-gray-800 rounded-xl p-4">
+      <div class="mt-20">
+        <div></div>
+        <div class="grid grid-cols-3 gap-4">
+          <div
+            v-for="image in game.images"
+            :key="image.name"
+            class="h-48 bg-gray-800 flex justify-center"
+          >
+            <img
+              :src="$axios.defaults.baseURL + '/images/games/' + image.name"
+              class="object-cover h-full"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 bg-gray-800 rounded-xl p-4">
         <h4 class="text-xl my-2">DESCRIPTION</h4>
         <hr class="mb-3" />
         <p class="w-3/4">{{ game.description }}</p>

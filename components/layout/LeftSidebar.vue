@@ -3,7 +3,7 @@
     <div class="flex flex-col">
       <nuxt-link to="/">
         <img
-          class="w-2/3 flex justify-center mx-auto"
+          class="w-4/12 lg:w-2/3 flex justify-center mx-auto"
           :src="require(`@/assets/images/icon/Logo.png`)"
         />
       </nuxt-link>
