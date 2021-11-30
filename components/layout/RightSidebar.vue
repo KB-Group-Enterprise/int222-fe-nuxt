@@ -1,5 +1,6 @@
 <template>
   <div class="p-5 w-full">
+    <LayoutPopularGame></LayoutPopularGame>
     <div class="form-control">
       <div class="relative">
         <input

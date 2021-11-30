@@ -1,0 +1,10 @@
+query PopularGame {
+  popularGames {
+    gameId
+    gameName
+    rating
+    images{
+      name
+    }
+  }
+}

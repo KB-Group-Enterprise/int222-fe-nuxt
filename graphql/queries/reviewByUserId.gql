@@ -1,0 +1,15 @@
+query ReviewByUserId($userId: String!) {
+  reviewByUserId(id: $userId) {
+    reviewId
+    rating
+    comment
+    game {
+      gameId
+      gameName
+    }
+    votes {
+      voteId
+      isUpvote
+    }
+  }
+}

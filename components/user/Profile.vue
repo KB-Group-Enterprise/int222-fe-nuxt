@@ -4,7 +4,7 @@
       <div class="relative">
         <img
           class="rounded-full w-56 h-56 object-cover"
-          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+          :src="'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'"
         />
         <div
           class="
@@ -40,12 +40,53 @@
         <small class="text-xl text-gray-400">{{ user.role.roleName }}</small>
       </div>
     </div>
+    <div class="mt-5 flex justify-center">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 border border-gray-500 rounded-xl text-center">
+          <h1 class="text-4xl my-2">{{ reviews.length }}</h1>
+          <h2 class="text-sm">GAME REVIEWED</h2>
+        </div>
+        <div class="p-4 border border-gray-500 rounded-xl text-center">
+          <h1 class="text-4xl my-2">{{ totalVotes }}</h1>
+          <h2 class="text-sm">TOTAL VOTES</h2>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5">
+      <h1>REVIEW HISTORY</h1>
+      <hr class="my-4" />
+      <div
+        v-for="review in reviews"
+        :key="review.reviewId"
+        class="border border-gray-500 rounded-xl p-5 my-2"
+      >
+        <div class="flex justify-between items-center">
+          <div class="tex-lg">{{ review.game.gameName }}</div>
+          <div
+            class="text-xl"
+            :class="[review.rating < 5 ? 'text-yellow-400' : 'text-green-500']"
+          >
+            {{ review.rating }}
+          </div>
+        </div>
+        <div class="font-thin text-sm ml-4 text-gray-300">
+          {{ review.comment }}
+        </div>
+      </div>
+    </div>
   </CommonContainer>
 </template>
 <script lang="ts">
-import { computed, defineComponent, useContext } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  useContext,
+} from '@nuxtjs/composition-api';
 import uploadProfileImageGQL from '@/graphql/mutations/uploadProfileImage.gql';
-import { useMutation } from '@vue/apollo-composable/dist';
+import reviewByUserIdGQL from '@/graphql/queries/reviewByUserId.gql';
+import { useMutation, useQuery } from '@vue/apollo-composable/dist';
+import { Review } from '~/types/types';
 export default defineComponent({
   setup() {
     const ctx = useContext();
@@ -102,7 +143,31 @@ export default defineComponent({
         timerProgressBar: true,
       });
     });
+
+    const { onResult: onReviewResult, refetch: reviewRefetch } = useQuery(
+      reviewByUserIdGQL,
+      { userId: ctx.$auth.user!.userId }
+    );
+
+    const reviews = ref<Review[]>([]);
+    onReviewResult((result) => {
+      reviews.value = result.data.reviewByUserId;
+    });
+
+    const totalVotes = computed(() => {
+      let total = 0;
+      reviews.value.forEach((review) => {
+        review.votes.forEach((vote) => {
+          const isUpvote =
+            vote.isUpvote > 0 ? vote.isUpvote / 10 : vote.isUpvote;
+          total += isUpvote;
+        });
+      });
+      return total;
+    });
     return {
+      totalVotes,
+      reviews,
       user,
       chooseFiles,
       handleImageChange,
