@@ -197,6 +197,15 @@ declare module '*/updateVote.gql' {
 }
     
 
+declare module '*/uploadProfileImage.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const UploadProfileImage: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/attributes.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -260,6 +269,15 @@ declare module '*/gamesSearch.gql' {
 }
     
 
+declare module '*/popularGames.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const PopularGame: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/publishers.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -291,6 +309,15 @@ declare module '*/review.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ReviewsInGame: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/reviewByUserId.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ReviewByUserId: DocumentNode;
 
   export default defaultDocument;
 }

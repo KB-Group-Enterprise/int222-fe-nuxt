@@ -74,7 +74,7 @@
                 class="btn btn-secondary"
                 @click="$emit('delete', item[Object.keys(item)[0]])"
               >
-                DEL<span class="hidden sm:block">ETE</span>
+                DEL<span class="hidden xl:block">ETE</span>
               </button>
             </div>
           </td>

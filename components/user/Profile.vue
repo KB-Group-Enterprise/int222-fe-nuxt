@@ -87,6 +87,7 @@ import {
   defineComponent,
   ref,
   useContext,
+  useRouter,
 } from '@nuxtjs/composition-api';
 import uploadProfileImageGQL from '@/graphql/mutations/uploadProfileImage.gql';
 import reviewByUserIdGQL from '@/graphql/queries/reviewByUserId.gql';
@@ -155,6 +156,7 @@ export default defineComponent({
     );
 
     const reviews = ref<Review[]>([]);
+    const router = useRouter();
     onReviewResult((result) => {
       reviews.value = result.data.reviewByUserId;
     });

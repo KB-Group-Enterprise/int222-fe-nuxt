@@ -59,7 +59,12 @@
         <div class="pt-24 items-center">
           <div class="flex flex-col justify-center">
             <h2 class="text-base">{{ game.gameName }}</h2>
-            <small class="text-xs text-gray-200">{{ game.publisher.publisherName }}</small>
+            <small class="text-xs text-gray-200"
+              ><span v-if="game.publisher">{{
+                game.publisher.publisherName
+              }}</span
+              ><span v-else>No Publisher</span></small
+            >
             <div
               v-if="$auth.loggedIn && $auth.user.role.roleName === 'admin'"
               class="inline-flex"

@@ -13,7 +13,10 @@
       z-50
     "
   >
-    <div class="flex items-center text-white" @click="$router.push('/')">
+    <div
+      class="flex items-center text-white cursor-pointer select-none"
+      @click="$router.push('/')"
+    >
       <span
         class="
           font-semibold

@@ -1,8 +1,10 @@
 <template lang="html">
-  <div class="w-full h-full absolute">
+  <div
+    class="w-full h-full fixed mobile-sidebar z-50"
+    :class="[sidebarOpen ? 'mobile-sidebar-open' : 'mobile-sidebar-close']"
+  >
     <div
-      v-if="sidebarOpen"
-      class="bg-black opacity-50 w-screen h-screen fixed z-40"
+      class="bg-gradient-to-l from-black w-full h-screen fixed z-40"
       @click="toggleSidebar()"
     ></div>
     <div
