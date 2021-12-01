@@ -4,7 +4,10 @@
       <div class="relative">
         <img
           class="rounded-full w-56 h-56 object-cover"
-          :src="'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'"
+          :src="
+            `http://${user.profileImage}` ||
+            'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          "
         />
         <div
           class="
@@ -37,7 +40,9 @@
       />
       <div class="text-center mt-4">
         <h1 class="text-3xl">{{ user.username }}</h1>
-        <small class="text-xl text-gray-400">{{ user.role.roleName }}</small>
+        <small class="text-xl text-gray-400"
+          >ROLE : {{ user.role.roleName.toUpperCase() }}</small
+        >
       </div>
     </div>
     <div class="mt-5 flex justify-center">
