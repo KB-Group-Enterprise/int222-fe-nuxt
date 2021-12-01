@@ -7,7 +7,7 @@ export default {
     port: '3000',
   },
   head: {
-    title: 'fe-ts',
+    title: 'INT 222 - GAME LEVIEW',
     htmlAttrs: {
       lang: 'en',
     },
