@@ -3,11 +3,16 @@
 </template>
 
 <script lang="ts">
-import { ref, useContext, useRouter } from '@nuxtjs/composition-api';
+import {
+  ref,
+  useContext,
+  useRouter,
+  defineComponent,
+  onMounted,
+} from '@nuxtjs/composition-api';
 import { useMutation, useQuery } from '@vue/apollo-composable/dist';
 import getGameGQL from '@/graphql/queries/game.gql';
 import updateGameGQL from '@/graphql/mutations/updateGameWithImages.gql';
-import { defineComponent, onMounted } from '@vue/composition-api';
 import { GameForm } from '~/types/type';
 import { formatFormToGame } from '~/composables/services/gameService';
 import { Game } from '~/types/types';

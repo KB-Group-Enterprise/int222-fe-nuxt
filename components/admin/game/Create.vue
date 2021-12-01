@@ -3,9 +3,13 @@
 </template>
 <script lang="ts">
 import { useMutation } from '@vue/apollo-composable/dist';
-import { defineComponent } from '@vue/composition-api';
+import {
+  defineComponent,
+  useContext,
+  useRouter,
+} from '@nuxtjs/composition-api';
 import AddGameWithImages from '@/graphql/mutations/addGameWithImages.gql';
-import { useContext, useRouter } from '@nuxtjs/composition-api';
+
 import { formatFormToGame } from '@/composables/services/gameService';
 import { GameForm } from '~/types/type';
 export default defineComponent({
