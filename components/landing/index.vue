@@ -28,7 +28,7 @@
       </div>
     </div>
     <div
-      class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2"
+      class="w-full grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-2"
     >
       <LandingGameCard
         v-for="game in games"
@@ -154,7 +154,7 @@ export default defineComponent({
       gameFilter,
       meta,
       page,
-      handlePageChange
+      handlePageChange,
     };
   },
 });

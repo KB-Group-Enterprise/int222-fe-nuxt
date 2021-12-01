@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref } from '@nuxtjs/composition-api';
+import { computed, defineComponent, onBeforeMount, ref, useContext, watch } from '@nuxtjs/composition-api';
 import { fetchUsers } from '@/composables/services/adminService';
 export default defineComponent({
   middleware: ['auth', 'is-admin'],
@@ -18,7 +18,15 @@ export default defineComponent({
     onBeforeMount(() => {
       fetchAllUsers();
     });
-
+    const ctx = useContext();
+    watch(users, () => {
+      const index = users.value.findIndex(
+        (user) => user.userId === ctx.$auth.user!.userId
+      );
+      if (index > -1) {
+        users.value.splice(index, 1);
+      }
+    });
     return {
       users,
     };

@@ -1,21 +1,28 @@
 <template lang="html">
-  <div
-    class="
-      w-10/12
-      sm:w-1/2
-      bg-gray-600
-      h-screen
-      lg:hidden
-      fixed
-      right-0
-      z-50
-      mobile-sidebar
-      overflow-y-scroll
-    "
-    :class="[sidebarOpen ? 'mobile-sidebar-open' : 'mobile-sidebar-close']"
-  >
-    <LayoutLeftSidebar></LayoutLeftSidebar>
-    <LayoutRightSidebar></LayoutRightSidebar>
+  <div class="w-full h-full absolute">
+    <div
+      v-if="sidebarOpen"
+      class="bg-black opacity-50 w-screen h-screen fixed z-40"
+      @click="toggleSidebar()"
+    ></div>
+    <div
+      class="
+        w-10/12
+        sm:w-1/2
+        bg-gray-600
+        h-screen
+        lg:hidden
+        fixed
+        right-0
+        z-50
+        mobile-sidebar
+        overflow-y-scroll
+      "
+      :class="[sidebarOpen ? 'mobile-sidebar-open' : 'mobile-sidebar-close']"
+    >
+      <LayoutLeftSidebar></LayoutLeftSidebar>
+      <LayoutRightSidebar></LayoutRightSidebar>
+    </div>
   </div>
 </template>
 

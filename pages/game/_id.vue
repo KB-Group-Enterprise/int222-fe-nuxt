@@ -11,19 +11,22 @@
     />
     <div
       class="
-        bg-black
         -mt-14
         -ml-2
         absolute
         px-4
         py-2
         pl-12
-        bg-opacity-20
         backdrop-filter backdrop-blur-lg
         rounded-lg
       "
     >
       <div class="text-7xl">{{ game.gameName }}</div>
+      <div class="text-xl">
+        <font-awesome-icon icon="tag" />
+        {{ game.basePrice || 'FREE' }}
+        {{ game.basePrice ? ' THB' : '' }}
+      </div>
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress

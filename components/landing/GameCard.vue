@@ -10,6 +10,7 @@
       text-white
       border border-black
       relative
+      game-card
     "
     @click="$emit('click', game.gameId)"
   >
@@ -55,39 +56,30 @@
           transition-all
         "
       >
-        <div class="flex justify-between pt-24 items-center">
+        <div class="pt-24 items-center">
           <div class="flex flex-col justify-center">
-            <h2 class="card-title shadow-md">{{ game.gameName }}</h2>
-            <small class="text-sm">{{ game.basePrice }} THB</small>
-          </div>
-          <div
-            v-if="$auth.loggedIn && $auth.user.role.roleName === 'admin'"
-            class="grid grid-cols-2"
-          >
-            <div @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)">
-              Edit |
-            </div>
-            <div @click.stop="$emit('delete', { gameId: game.gameId })">
-              Delete
+            <h2 class="text-base">{{ game.gameName }}</h2>
+            <small class="text-xs text-gray-200">{{ game.publisher.publisherName }}</small>
+            <div
+              v-if="$auth.loggedIn && $auth.user.role.roleName === 'admin'"
+              class="inline-flex"
+            >
+              <div
+                class="text-glow transition-all"
+                @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
+              >
+                Edit
+              </div>
+              <span class="mx-2"> | </span>
+              <div
+                class="text-glow transition-all"
+                @click.stop="$emit('delete', { gameId: game.gameId })"
+              >
+                Delete
+              </div>
             </div>
           </div>
         </div>
-        <!-- <div class="card-actions">
-        <button
-          v-if="$auth.user.role.roleName === 'admin'"
-          class="btn btn-success"
-          @click.stop="$router.push(`/admin/game/edit/${game.gameId}`)"
-        >
-          Edit
-        </button>
-        <button
-          v-if="$auth.user.role.roleName === 'admin'"
-          class="btn btn-error"
-          @click.stop="deleteGamePrompt({ gameId: game.gameId })"
-        >
-          Delete
-        </button>
-      </div> -->
       </div>
     </div>
   </div>
@@ -106,3 +98,34 @@ export default defineComponent({
   setup() {},
 });
 </script>
+
+<style scoped>
+.game-card {
+  height: 250px;
+}
+@media screen and (min-width: 640px) {
+  .game-card {
+    height: 350px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .game-card {
+    height: 350px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .game-card {
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .game-card {
+    height: 450px;
+  }
+}
+
+.text-glow:hover {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+</style>

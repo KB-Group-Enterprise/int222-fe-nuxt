@@ -9,6 +9,10 @@ query getGamePaginate($limit: Int!, $page: Int!, $filterBy: [String!], $filter: 
             images {
                 name
             }
+            publisher {
+                publisherId
+                publisherName
+            }
   	    }
         meta {
             itemCount

@@ -19,23 +19,24 @@
         />
       </div>
     </div>
-    <div class="overflow-y-scroll">
+    <div class="overflow-y-scroll h-96">
       <div
-        class="card lg:card-side bordered my-2"
         v-for="game in games"
         :key="game.gameId"
+        class="
+          border border-gray-500
+          rounded-lg
+          p-2
+          my-2
+          flex
+          bg-gradient-to-r
+          cursor-pointer
+        "
         @click="$router.push(`/game/${game.gameId}`)"
       >
-        <figure>
-          <img src="" />
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title">{{ game.gameName }}</h2>
-          <div class="flex justify-between">
-            <div>rating</div>
-            <div v-if="game.rating !== null">{{ game.rating }}</div>
-            <div v-else>none</div>
-          </div>
+        <div>
+          <h4>{{ game.gameName }}</h4>
+          <small>RATING | {{ game.rating || 'Not Rated' }}</small>
         </div>
       </div>
     </div>
