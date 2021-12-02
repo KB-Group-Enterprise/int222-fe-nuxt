@@ -63,15 +63,17 @@
       <h2 class="card-title">{{ review.reviewer.username }}</h2>
       <p v-if="!isEdit">{{ updateData.comment }}</p>
       <div v-else class="flex flex-col">
-        <input
+        <textarea
           v-model="updateData.comment"
-          class="input input-sm input-primary input-bordered"
+          class="textarea h-24 w-full border border-gray-500 mt-4"
           type="text"
+          maxlength="250"
+          @keyup.enter="edit"
         />
-        <div class="flex mt-2 w-2/3 lg:w-1/3 justify-between">
-          <div class="text-green-400 cursor-pointer" @click="edit">ติ๊กถูก</div>
+        <div class="flex mt-2 w-2/3 lg:w-1/3 text-lg">
+          <div class="text-green-400 cursor-pointer mx-2" @click="edit"><font-awesome-icon icon="check-circle" /></div>
           <div class="text-red-500 cursor-pointer" @click="changeIsEdit">
-            กากบาท
+            <font-awesome-icon icon="times-circle" />
           </div>
         </div>
       </div>

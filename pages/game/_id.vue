@@ -129,9 +129,9 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="Comment"
-            rules="required"
+            rules="required|max:250"
           >
-            <input
+            <textarea
               id="comment"
               v-model="reviewData.comment"
               placeholder="Comment"
@@ -186,7 +186,9 @@ import {
 } from '@nuxtjs/composition-api';
 import { createReview } from '@/composables/services/reviewService';
 import { fetchGame } from '@/composables/services/gameService';
-import { CreateReviewInput } from '~/types/types';
+import { useQuery } from '@vue/apollo-composable/dist';
+import GameWithReviews from '@/graphql/queries/gameWithReviews.gql';
+import { CreateReviewInput, Game, Review } from '~/types/types';
 export default defineComponent({
   setup() {
     const fadeStyle = ref(
@@ -198,12 +200,36 @@ export default defineComponent({
       userId: '',
       gameId: 0,
     });
-    const { comments, game, fetchGameWithReview } = fetchGame(reviewData);
-    const { isCreating, sendReview } = createReview(reviewData, comments);
+    const route = useRoute();
+    const gameId = ref<number>(+route.value.params.id);
+
+    const { onResult, refetch: refetchGame } = useQuery(GameWithReviews, {
+      gameId: gameId.value,
+    });
+    const router = useRouter();
+    const { $toast } = useContext();
+    const game = ref<Game | null>(null);
+    const comments = ref<Review[]>([]);
+    onResult((result) => {
+      if (result.error) {
+        $toast.error('Something wrong with this game page');
+        router.push('/');
+      } else {
+        game.value = result.data.gameWithReviews;
+        reviewData.gameId = game.value!.gameId;
+        comments.value = game.value!.reviews;
+      }
+    });
+
+    const { isCreating, sendReview } = createReview(
+      reviewData,
+      comments,
+      refetchGame
+    );
     onBeforeMount(() => {
-      const route = useRoute();
       const paramId = Number(route.value.params.id);
-      fetchGameWithReview(paramId);
+      gameId.value = paramId;
+      refetchGame();
     });
 
     function deleteReview(id: number) {
@@ -212,6 +238,7 @@ export default defineComponent({
         commentList.findIndex((comment) => comment.reviewId === id),
         1
       );
+      refetchGame();
     }
     const ctx = useContext();
     const userReviewExist = computed(() => {
