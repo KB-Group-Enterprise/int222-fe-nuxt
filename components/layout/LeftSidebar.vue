@@ -3,11 +3,26 @@
     <div class="flex flex-col">
       <nuxt-link to="/">
         <img
-          class="w-4/12 lg:w-2/3 flex justify-center mx-auto"
+          class="w-4/12 lg:w-2/3 flex justify-center mx-auto mb-5"
           :src="require(`@/assets/images/icon/Logo.png`)"
         />
       </nuxt-link>
-      <div class="flex flex-col mt-10 space-y-4">
+      <div
+        v-if="$auth.loggedIn"
+        class="w-full flex flex-col items-center cursor-pointer select-none"
+        @click="$router.push('/user/profile')"
+      >
+        <img
+          v-if="$auth.user.profileImage"
+          class="w-32 h-32 bg-gray-500 rounded-full object-cover"
+          :src="userImageUrl"
+        />
+        <h1 class="text-xl mt-2">{{ $auth.user.username }}</h1>
+        <small class="text-base text-gray-300">{{
+          $auth.user.role.roleName.toUpperCase()
+        }}</small>
+      </div>
+      <div class="flex flex-col mt-5 space-y-4">
         <div
           v-for="item in items"
           :key="item.name"
@@ -15,9 +30,7 @@
           :class="[
             item.path === $route.path ? 'bg-gray-800' : '',
             $auth.loggedIn || !item.loggedIn ? '' : 'hidden',
-            true || item.role === '' || item.role === currentRole
-              ? ''
-              : 'hidden',
+            item.role === '' || item.role === currentRole ? '' : 'hidden',
           ]"
           @click="$router.push(item.path)"
         >
@@ -61,7 +74,12 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref, useContext } from '@nuxtjs/composition-api';
+import {
+  computed,
+  defineComponent,
+  ref,
+  useContext,
+} from '@nuxtjs/composition-api';
 
 export default defineComponent({
   setup() {
@@ -98,9 +116,16 @@ export default defineComponent({
     ];
     const ctx = useContext();
     const currentRole = computed(() => {
-      return ctx.$auth.user.role.roleName && '';
+      if (ctx.$auth.user) return ctx.$auth.user.role.roleName;
+      else return '';
     });
-    return { items, currentRole };
+
+    const userImageUrl = computed(() => {
+      if (!ctx.$auth.loggedIn || !ctx.$auth.user.profileImage)
+        return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
+      else return 'http://' + ctx.$auth.user.profileImage;
+    });
+    return { items, currentRole, userImageUrl };
   },
 });
 </script>
