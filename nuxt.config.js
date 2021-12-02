@@ -1,6 +1,7 @@
+import { resolve } from 'path';
 export default {
   ssr: false,
-  target: 'server',
+  target: 'static',
   // Global page headers: https://go.nuxtjs.dev/config-head
   server: {
     host: '0.0.0.0',
@@ -33,6 +34,10 @@ export default {
     '~/assets/css/main.css',
     'material-icons/iconfont/material-icons.css',
   ],
+
+  alias: {
+    '@vue/composition-api/dist/vue-composition-api.mjs': resolve('./node_modules/@vue/composition-api/dist/vue-composition-api.esm.js'),
+  },
 
   tailwindcss: {
     jit: false,
