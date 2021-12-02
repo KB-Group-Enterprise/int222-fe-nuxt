@@ -66,7 +66,7 @@ export function fetchGame(reviewData: CreateReviewInput) {
   const game = ref<Game | null>(null);
   const comments = ref<Review[]>([]);
   const fetchGameWithReview = (paramId: number) => {
-    const { onResult } = useQuery(GameWithReviews, {
+    const { onResult, refetch: refetchGame } = useQuery(GameWithReviews, {
       gameId: paramId,
     });
     onResult((result) => {

@@ -18,7 +18,7 @@ export function updateReview(
 ) {
   const { $toast } = useContext();
   const isEdit = ref(false);
-  const { mutate: updateReview, onError } = useMutation(UpdateReviewMutation);
+  const { mutate: updateReview, onError, onDone } = useMutation(UpdateReviewMutation);
   const edit = async () => {
     if (reviewer.userId === currentUser.userId) {
       isEdit.value = true;
@@ -42,6 +42,7 @@ export function updateReview(
     edit,
     isEdit,
     changeIsEdit,
+    onDone,
   };
 }
 
@@ -84,7 +85,8 @@ export function deleteReview({ reviewId, comment }: Review, emit: any) {
 // }
 export function createReview(
   reviewData: CreateReviewInput,
-  comments: Ref<Review[]>
+  comments: Ref<Review[]>,
+  cb?: () => any
 ) {
   const { $auth, $toast } = useContext();
   const {
@@ -100,6 +102,7 @@ export function createReview(
     send({ reviewData });
     onDone((result) => {
       $toast.clear();
+      if (cb) cb();
       const comment = result.data.createReview as Review;
       if (!comment.votes) comment.votes = [];
       const isCommentInArr = comments.value.findIndex(
