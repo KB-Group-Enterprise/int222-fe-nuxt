@@ -68,7 +68,7 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="description"
-            rules="required"
+            rules="required|max:250"
             class="col-span-2"
           >
             <div class="form-control">
