@@ -123,7 +123,7 @@ export default defineComponent({
     const userImageUrl = computed(() => {
       if (!ctx.$auth.loggedIn || !ctx.$auth.user.profileImage)
         return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
-      else return 'http://' + ctx.$auth.user.profileImage;
+      else return ctx.$auth.user.profileImage;
     });
     return { items, currentRole, userImageUrl };
   },
