@@ -88,6 +88,7 @@ export default defineComponent({
       onDone: onDeleteDone,
     } = useMutation(deleteGameGQL);
     onGameResult((result) => {
+      console.log(result);
       const output: GamePaginationOutput = result.data.paginateGames;
       games.value = output.items;
       meta.value = output.meta;
@@ -155,6 +156,18 @@ export default defineComponent({
       meta,
       page,
       handlePageChange,
+    };
+  },
+  head() {
+    return {
+      title: 'Game-Leview',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'The community of gamer คอมมูนิตี้แหล่งรวมเหล่าเกมเมอร์',
+        },
+      ],
     };
   },
 });
