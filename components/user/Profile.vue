@@ -5,7 +5,7 @@
         <img
           class="rounded-full w-56 h-56 object-cover bg-gray-500"
           :src="
-            `http://${user.profileImage}` ||
+            user.profileImage ||
             'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
           "
         />
