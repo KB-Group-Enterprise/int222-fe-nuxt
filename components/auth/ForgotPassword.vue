@@ -105,7 +105,7 @@ import ForgotPassword from '@/graphql/mutations/forgotPassword.gql';
 import { ForgotPasswordInput, RestoreQuestionOutput } from '~/types/types';
 export default defineComponent({
   setup() {
-    const username = ref<string>('boat');
+    const username = ref<string>('');
     const questionOutput = ref<RestoreQuestionOutput | null>(null);
     const answer = ref('');
     const newPassword = ref('');
