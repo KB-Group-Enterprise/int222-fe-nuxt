@@ -27,6 +27,7 @@
         {{ game.basePrice || 'FREE' }}
         {{ game.basePrice ? ' THB' : '' }}
       </div>
+      <div>{{ formatDate(game.releaseDate) }}</div>
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
@@ -47,7 +48,7 @@
       </div>
     </div>
     <CommonContainer>
-      <div class="mt-20">
+      <div class="mt-24">
         <div></div>
         <div class="grid grid-cols-3 gap-4">
           <div
@@ -252,6 +253,11 @@ export default defineComponent({
     function setScore(rating: number) {
       reviewData.rating = rating;
     }
+    const formatDate = (date: string) => {
+      const options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const gameDate = new Date(date);
+      return gameDate.toLocaleDateString("en-US", options);
+    };
     return {
       game,
       reviewData,
@@ -262,6 +268,7 @@ export default defineComponent({
       fadeStyle,
       setScore,
       userReviewExist,
+      formatDate,
     };
   },
 });
