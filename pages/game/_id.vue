@@ -21,13 +21,13 @@
         rounded-lg
       "
     >
-      <div class="text-7xl">{{ game.gameName }}</div>
-      <div class="text-xl">
+      <div class="text-3xl lg:text-7xl">{{ game.gameName }}</div>
+      <div class="text-md lg:text-xl">
         <font-awesome-icon icon="tag" />
         {{ game.basePrice || 'FREE' }}
         {{ game.basePrice ? ' THB' : '' }}
       </div>
-      <div>{{ formatDate(game.releaseDate) }}</div>
+      <div class="text-xs md:text-base">{{ formatDate(game.releaseDate) }}</div>
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
