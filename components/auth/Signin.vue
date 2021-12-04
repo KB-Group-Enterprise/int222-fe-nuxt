@@ -36,7 +36,7 @@
       </button>
       <p v-if="error" class="text-red-500">{{ error }}</p>
     </form>
-    <nuxt-link to="/forgot">
+    <nuxt-link to="/forgot_password">
       <div class="w-full flex justify-end mt-3 hover:underline cursor-pointer">
         Forgot Password
       </div>
@@ -49,8 +49,8 @@ import { defineComponent, ref, useContext } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   setup() {
-    const username = ref('boat');
-    const password = ref('12345678');
+    const username = ref('');
+    const password = ref('');
     const isLoading = ref(false);
     const { $auth, $toast } = useContext();
     const error = ref('');

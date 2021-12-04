@@ -108,7 +108,7 @@
         </div>
         <label class="label" for="restoreanswer">
           <span
-            >Question
+            >Answer
             <Tooltip :description="'ตอบ Answer สำหรับใช้ในการกู้รหัสผ่าน'"
           /></span>
         </label>
@@ -154,11 +154,11 @@ export default defineComponent({
     const router = useRouter();
     const { $axios, $toast } = useContext();
     const userData = reactive({
-      username: 'boat',
-      password: '12345678',
-      confirmPassword: '12345678',
-      restoreAnswer: 'black',
-      questionId: '1',
+      username: '',
+      password: '',
+      confirmPassword: '',
+      restoreAnswer: '',
+      questionId: '',
     });
     onResult(async ({ data }) => {
       questions.value = await data.questions;
