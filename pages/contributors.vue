@@ -1,8 +1,8 @@
 <template>
 <div class="mx-auto flex flex-col justify-center -translate-y-20">
-  <div class="font-bold text-9xl uppercase text-center">contributors</div>
-  <div class="max-w-6xl flex md:flex-row flex-col gap-8 gap-y-12 md:gap-y-8">
-    <ContributorsCard v-for="contributor in contributors" :pic='contributor.pic' :name='contributor.name' :code='contributor.code'></ContributorsCard>
+  <div class="font-bold md:text-6xl lg:text-7xl 2xl:text-9xl uppercase text-center">contributors</div>
+  <div class="max-w-6xl flex flex-col lg:flex-row lg:justify-around overflow-x-scroll md:gap-y-4">
+    <ContributorsCard v-for="contributor in contributors" :key="contributor.code" :pic='contributor.pic' :name='contributor.name' :code='contributor.code'></ContributorsCard>
   </div>
   </div>
 </template>
