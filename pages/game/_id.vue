@@ -119,7 +119,11 @@
           class="flex flex-col border border-gray-500 p-5 rounded-xl"
           @submit.prevent="handleSubmit(sendReview)"
         >
+        <div class="flex flex-row">
           <h1>REVIEW THIS GAME</h1>
+          <tooltip description="บรรยายไม่เกิน 250 ตัวอักษร"/>
+          </div>
+          
           <GameRatingStar class="-translate-x-4" @set-score="setScore" />
           <!-- <input
           id="ratings"
@@ -190,7 +194,9 @@ import { fetchGame } from '@/composables/services/gameService';
 import { useQuery } from '@vue/apollo-composable/dist';
 import GameWithReviews from '@/graphql/queries/gameWithReviews.gql';
 import { CreateReviewInput, Game, Review } from '~/types/types';
+import Tooltip from '~/components/Tooltip.vue';
 export default defineComponent({
+  components: { Tooltip },
   setup() {
     const fadeStyle = ref(
       '-webkit-mask-image: -webkit-gradient(linear,left 40%,left bottom,from(rgba(0, 0, 0, 1)),to(rgba(0, 0, 0, 0)));'
