@@ -1,7 +1,7 @@
 <template>
 <div class="mx-auto flex flex-col justify-center -translate-y-20">
   <div class="font-bold md:text-6xl lg:text-7xl 2xl:text-9xl uppercase text-center">contributors</div>
-  <div class="max-w-6xl flex flex-col lg:flex-row lg:justify-around overflow-x-scroll md:gap-y-4">
+  <div class="max-w-6xl flex flex-col 2xl:flex-row 2xl:justify-around md:gap-y-4 items-center">
     <ContributorsCard v-for="contributor in contributors" :key="contributor.code" :pic='contributor.pic' :name='contributor.name' :code='contributor.code'></ContributorsCard>
   </div>
   </div>
