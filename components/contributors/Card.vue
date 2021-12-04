@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full cursor-pointer scale-75 2xl:scale-100">
+  <div class="w-auto h-full cursor-pointer scale-90">
       <div class="relative" v-if="pic == 'kb'">
           <img
           class="absolute -right-14 -top-16 scale-75"
