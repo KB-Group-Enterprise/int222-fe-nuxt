@@ -1,5 +1,9 @@
 <template>
-  <AdminGameForm :game="game" @save="sendGameUpdate"></AdminGameForm>
+  <AdminGameForm
+    :game="game"
+    mode="update"
+    @save="sendGameUpdate"
+  ></AdminGameForm>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <AdminGameForm @save="sendGame"></AdminGameForm>
+  <AdminGameForm mode="add" @save="sendGame"></AdminGameForm>
 </template>
 <script lang="ts">
 import { useMutation } from '@vue/apollo-composable/dist';
