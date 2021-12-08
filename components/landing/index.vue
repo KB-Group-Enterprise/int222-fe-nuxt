@@ -88,7 +88,6 @@ export default defineComponent({
       onDone: onDeleteDone,
     } = useMutation(deleteGameGQL);
     onGameResult((result) => {
-      console.log(result);
       const output: GamePaginationOutput = result.data.paginateGames;
       games.value = output.items;
       meta.value = output.meta;
@@ -143,8 +142,14 @@ export default defineComponent({
       gameRefetch({ limit: limit.value, page: page.value, ...gameFilter });
     };
     const handlePageChange = (newPage: number) => {
-      page.value = newPage;
-      gameRefetch({ limit: limit.value, page: page.value, ...gameFilter });
+      if (
+        meta.value &&
+        meta.value.totalPages &&
+        newPage <= meta.value.totalPages
+      ) {
+        page.value = newPage;
+        gameRefetch({ limit: limit.value, page: page.value, ...gameFilter });
+      }
     };
     return {
       games,
