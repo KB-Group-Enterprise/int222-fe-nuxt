@@ -2,7 +2,9 @@
   <common-container>
     <div class="w-full flex flex-col my-20">
       <div>
-        <h1 class="text-3xl">{{ game ? 'UPDATE GAME' : 'ADD GAME' }}</h1>
+        <h1 class="text-3xl">
+          {{ mode === 'update' ? 'UPDATE GAME' : 'ADD GAME' }}
+        </h1>
       </div>
       <h1>Upload Images</h1>
       <div>
@@ -11,7 +13,11 @@
           @ondelete="deleteImg"
           @choosefile="chooseFiles"
         ></AdminGamePreview>
+        <p v-if="validateError.images" class="text-red-600">
+          กรุณาเลือกอัพโหลดอย่างน้อย 1 รูป
+        </p>
       </div>
+
       <input
         id="fileUpload"
         class="m-3 w-full lg:w-4/12"
@@ -41,6 +47,12 @@
                 :placeholder="field.placeholder"
                 class="input input-bordered"
               />
+              <p
+                v-if="field.model === 'gameName' && !isGameNameUnique"
+                class="text-red-600"
+              >
+                โปรดเลือกชื่อเกมที่ไม่เหมือนชื่อเกมที่มีอยู่แล้ว
+              </p>
               <p v-if="errors[0]" class="text-red-600">{{ errors[0] }}</p>
             </div>
           </ValidationProvider>
@@ -167,6 +179,7 @@ import {
 } from '@nuxtjs/composition-api';
 import { useQuery } from '@vue/apollo-composable/dist';
 import GameAttributesQuery from '@/graphql/queries/attributes.gql';
+import GamesSearchGQL from '@/graphql/queries/gamesSearch.gql';
 import { Category, Game, Publisher, Retailer } from '~/types/types';
 import { GameForm } from '~/types/type';
 export default defineComponent({
@@ -175,6 +188,10 @@ export default defineComponent({
       type: Object as () => Game,
       default: () => ref(null),
     },
+    mode: {
+      type: String,
+      required: true,
+    },
   },
   setup(props, { emit }) {
     const ctx = useContext();
@@ -182,10 +199,13 @@ export default defineComponent({
     const retailers = ref<Retailer[]>([]);
     const categories = ref<Category[]>([]);
     const publishers = ref<Publisher[]>([]);
+
+    const originalGameName = ref('');
     watch(
       () => props.game,
       () => {
         if (props.game && props.game.gameId) {
+          originalGameName.value = props.game.gameName;
           Object.assign(form, props.game);
           setImgfiles(props.game.images);
         }
@@ -195,6 +215,7 @@ export default defineComponent({
       publisher: false,
       categories: false,
       retailers: false,
+      images: false,
     });
     const form = reactive<GameForm>({
       gameName: '',
@@ -214,8 +235,15 @@ export default defineComponent({
       });
     };
     const onSubmit = () => {
-      if (!hasError()) {
+      if (!hasError() && isGameNameUnique.value) {
         emit('save', form, images.value);
+      } else {
+        ctx.$swal({
+          icon: 'error',
+          text: 'โปรดกรอกข้อมูลให้ถูกต้อง',
+          timer: 1500,
+          timerProgressBar: true,
+        });
       }
     };
 
@@ -285,12 +313,47 @@ export default defineComponent({
       validateError.categories = form.categories.length < 1;
       validateError.retailers = form.retailers.length < 1;
       validateError.publisher = !form.publisher;
+      validateError.images = images.value.length < 1;
       return (
         validateError.categories ||
         validateError.retailers ||
-        validateError.publisher
+        validateError.publisher ||
+        validateError.images
       );
     };
+
+    const isGameNameUnique = ref(true);
+    const { onResult: onGameResult, refetch: gameRefetch } = useQuery(
+      GamesSearchGQL,
+      { gameName: form.gameName }
+    );
+    onGameResult((result) => {
+      const games: Game[] = result.data.searchGames;
+      if (props.mode === 'add') {
+        const exist = games.find((game) => game.gameName === form.gameName);
+        if (exist) {
+          isGameNameUnique.value = false;
+        } else {
+          isGameNameUnique.value = true;
+        }
+      } else {
+        const exists = games.filter((game) => game.gameName === form.gameName);
+        const exist = games.find((game) => game.gameName === form.gameName);
+        isGameNameUnique.value = !(exists.length > 1);
+        if (exist) {
+          isGameNameUnique.value =
+            isGameNameUnique.value && exist.gameName === originalGameName.value;
+        }
+      }
+    });
+
+    watch(
+      () => form.gameName,
+      (newVal: string, oldVal: string) => {
+        if (newVal !== oldVal) gameRefetch({ gameName: form.gameName });
+      }
+    );
+
     const formTemplate = readonly([
       {
         name: 'Name',
@@ -326,6 +389,7 @@ export default defineComponent({
       deleteImg,
       chooseFiles,
       previews,
+      isGameNameUnique,
     };
   },
 });

@@ -21,12 +21,13 @@
         rounded-lg
       "
     >
-      <div class="text-7xl">{{ game.gameName }}</div>
-      <div class="text-xl">
+      <div class="text-3xl lg:text-7xl">{{ game.gameName }}</div>
+      <div class="text-md lg:text-xl">
         <font-awesome-icon icon="tag" />
         {{ game.basePrice || 'FREE' }}
         {{ game.basePrice ? ' THB' : '' }}
       </div>
+      <div class="text-xs md:text-base">{{ formatDate(game.releaseDate) }}</div>
     </div>
     <div class="absolute right-10 -mt-14 flex justify-center items-center">
       <vue-ellipse-progress
@@ -47,7 +48,7 @@
       </div>
     </div>
     <CommonContainer>
-      <div class="mt-20">
+      <div class="mt-24">
         <div></div>
         <div class="grid grid-cols-3 gap-4">
           <div
@@ -118,7 +119,11 @@
           class="flex flex-col border border-gray-500 p-5 rounded-xl"
           @submit.prevent="handleSubmit(sendReview)"
         >
+        <div class="flex flex-row">
           <h1>REVIEW THIS GAME</h1>
+          <tooltip description="บรรยายไม่เกิน 250 ตัวอักษร"/>
+          </div>
+          
           <GameRatingStar class="-translate-x-4" @set-score="setScore" />
           <!-- <input
           id="ratings"
@@ -189,7 +194,9 @@ import { fetchGame } from '@/composables/services/gameService';
 import { useQuery } from '@vue/apollo-composable/dist';
 import GameWithReviews from '@/graphql/queries/gameWithReviews.gql';
 import { CreateReviewInput, Game, Review } from '~/types/types';
+import Tooltip from '~/components/Tooltip.vue';
 export default defineComponent({
+  components: { Tooltip },
   setup() {
     const fadeStyle = ref(
       '-webkit-mask-image: -webkit-gradient(linear,left 40%,left bottom,from(rgba(0, 0, 0, 1)),to(rgba(0, 0, 0, 0)));'
@@ -252,6 +259,11 @@ export default defineComponent({
     function setScore(rating: number) {
       reviewData.rating = rating;
     }
+    const formatDate = (date: string) => {
+      const options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const gameDate = new Date(date);
+      return gameDate.toLocaleDateString("en-US", options);
+    };
     return {
       game,
       reviewData,
@@ -262,6 +274,7 @@ export default defineComponent({
       fadeStyle,
       setScore,
       userReviewExist,
+      formatDate,
     };
   },
 });

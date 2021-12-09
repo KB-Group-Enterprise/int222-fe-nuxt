@@ -5,6 +5,7 @@ query GameWithReviews($gameId: Int!) {
     gameName
     basePrice
     description
+    releaseDate
     publisher {
       publisherName
     }
