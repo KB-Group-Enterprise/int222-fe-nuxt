@@ -44,7 +44,7 @@
         <ValidationProvider
           v-slot="{ errors }"
           name="Password"
-          rules="required"
+          rules="required|min:8"
           vid="confirmation"
         >
           <input

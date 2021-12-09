@@ -94,9 +94,11 @@ export function updateVote() {
     }
     updateVote({ updateVoteInput: updateVoteData });
     onDone(() => {
+      $toast.clear();
       $toast.success('Update vote success');
     });
     onError(() => {
+      $toast.clear();
       $toast.error('Update vote failed');
     });
   };
